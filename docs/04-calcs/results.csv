@@ -1,0 +1,70 @@
+tag,item,value,unit,requirement,status
+G1,Side flare of the reference canoe,31.6,deg,,
+G2,Modules per canoe,8,,,
+G3,Module run per side (four lengths),4780.0,mm,,
+G4,"Module section, 200 mm wide x 200 mm high (four 50 mm layers)",0.04,m2,,
+G5,"Module envelope volume, both sides",0.382,m3,,
+G6,Foam core volume (inside the covers),0.365,m3,,
+G7,Module bottom and top above the outside of the bottom,420 and 620,mm,,
+G8,"Hull timber volume (planks, frames, thwarts, strakes)",0.586,m3,,
+G9,Dry hull mass at 750 kg/m3 (typical),439,kg,,
+K,"Kit mass, foam",10.9,kg,,
+K,"Kit mass, covers",8.9,kg,,
+K,"Kit mass, battens and chocks",39.4,kg,,
+K,"Kit mass, screws, eye bolts, D-rings",2.8,kg,,
+K,"Kit mass, straps",3.3,kg,,
+K,"Kit mass, grab lines",1.0,kg,,
+K,"Kit mass, bailers",1.0,kg,,
+K1,Kit mass in all,67.4,kg,,
+K2,"Cover area, eight sleeves with end flaps",13.7,m2,,
+L,"Design net weight, crew holding on",15.0,kg,,
+L,"Design net weight, crew holding on",15.0,kg,,
+L,"Design net weight, crew holding on",15.0,kg,,
+L,"Design net weight, crew holding on",15.0,kg,,
+L,"Design net weight, outboard motor",36.0,kg,,
+L,"Design net weight, anchor and chain",10.5,kg,,
+L,"Design net weight, nets",4.9,kg,,
+L,"Design net weight, catch",7.1,kg,,
+L,"Design net weight, fuel tank",0.0,kg,,
+L1,"Design net load (crew holding on, motor, gear, catch)",118.5,kg,,
+F1,"Swamped, design load, fresh water: freeboard amidships (level)",105,mm,,
+F2,"Swamped, design load: lowest freeboard on the gunwale with trim",80,mm,R2,met
+F3,"Swamped, design load: trim (positive bow down)",-0.45,deg,R3,met
+F4,"Swamped, design load: timber above water (counted as load)",104.0,kg,,
+F5,"Swamped, design load: transverse metacentric height",3.1,m,,
+F6,"Swamped, design load: roll stiffness",742,kg m per rad,,
+F7,Net load the swamped canoe carries at 50 mm freeboard,257,kg,,
+F8,Reserve: capacity at 50 mm freeboard over design net load,2.17,,R1,met
+F9,"Swamped, no crew holding on: freeboard, heel, trim","119 mm, 0.0 deg, -0.17 deg",,R3,met
+F10,Four crew holding the port grab line: heel,4.0,deg,R3,met
+F11,Four crew on one side: lowest freeboard,31,mm,,
+F12,"Salt water, design load: lowest freeboard",87,mm,,
+F13,Foam lift down 5 % (R6 limit): lowest freeboard,74,mm,,
+F14,Largest module lost (port 2) and 5 % uptake: lowest freeboard,9,mm,,
+F15,Largest module lost: heel,1.5,deg,,
+F16,With typical 750 kg/m3 timber (lift not counted in design): freeboard amidships,163,mm,,
+F17,Same foam fitted low on the floor: roll stiffness,17,kg m per rad,,
+F18,Same foam fitted low: metacentric height,0.04,m,,
+F19,Same foam fitted low: heel with four crew on one side,178.4,deg,,
+V1,Hull inside volume below the gunwale,5.01,m3,,
+V2,Module volume as a share of the inside volume,7.6,%,R5,met
+B1,Water inside the swamped canoe,3.57,m3,,
+B2,"Water that may stay aboard at 200 mm freeboard, all crew aboard",2.31,m3,,
+B3,Water to bail out,1.26,m3,,
+B4,"Bail-out time, two crew at 100 L/min each (estimate)",6.3,min,R4,met (estimate)
+B5,Dry canoe: draft added by the kit (waterplane about 6.4 m2),11,mm,,
+S1,"Largest module, full lift in salt water",0.547,kN,,
+S2,"Per strap (two straps, both legs)",0.273,kN,,
+S3,"Webbing factor (10 kN webbing, one leg carries half)",73.2,,R7,met
+S4,"D-ring buckle factor (4 kN, to confirm)",14.6,,R7,met
+S5,Largest share on one coach screw (sideways),0.273,kN,,
+S6,Coach screw factor (1.5 kN sideways in hardwood),5.5,,R7,met
+S7,Total lift of all modules fully submerged (into the frames),3.73,kN,,
+S8,"Per frame, 10 frames per side",0.187,kN,,
+T1,"Fitting time on the canoe, foam cores and covers made beforehand (estimate)",6.3,h,R8,met (estimate)
+C1,Parts cost of one kit,676.8,USD,,
+C2,Parts for two canoes (one gauge),1349.6,USD,R10,over the value-engineering target by USD 350
+C3,Foam share of one kit,49,%,,
+Z,"Sizing sheet, 6.5 m paddle canoe, no motor, 3 crew: module run needed per side (available 3.8 m)",2.7,m,,
+Z,"Sizing sheet, 8.0 m canoe, 15 hp, 4 crew (reference): module run needed per side (available 4.8 m)",4.18,m,,
+Z,"Sizing sheet, 10 m canoe, 25 hp, 6 crew: module run needed per side (available 6.4 m)",5.63,m,,

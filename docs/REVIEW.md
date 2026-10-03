@@ -1,0 +1,101 @@
+# Review note: LevelHull
+
+## Session 2026-09-30: scaffolded
+
+### What was done
+
+- Repository created from kit 1.6.0 at TRL 1, target TRL 2.
+- `docs/01-problem.md` (LVH-PRB-001 v0.1): problem with cited evidence, users, environment, constraints, prior work, open questions.
+- `docs/02-concept.md` (LVH-PRC-001 v0.1): how it works, components, patent design-arounds, shared blocks, safety.
+- `docs/03-requirements.md` (LVH-REQ-001 v0.1): 10 proposed requirements.
+- `README.md` with concept rationale, burning platform, where it could be used, and what sparked the idea.
+
+### Next
+
+- Run `/populate` to bring the repo to a strong TRL 2 with concept media.
+
+## Session 2026-10-03: TRL 2 (populate)
+
+Run as the first half of `/to-trl3` under Amish's pre-approval of 2026-10-03: "start with the first 14 repos from the list of 29 projects. I pre-approve the batch runs along with any recommendations you come up with. I also accept any cost overruns or variations from the assumed scope cost." Kit 1.7.0 installed.
+
+### What was done
+
+- `docs/01-problem.md` (LVH-PRB-001 v0.2): constraints restated (value-engineering target, no new holes below the waterline), open questions settled, first co-design candidates, safety section.
+- `docs/02-concept.md` (LVH-PRC-001 v0.2): how it works, components with BOM numbers, key design choices, first-order numbers, design-arounds kept, safety.
+- `docs/03-requirements.md` (LVH-REQ-001 v0.2): 13 measurable requirements (R11 to R13 added) with TRL 3 status.
+- Concept media from `cad/src/concept_media.py`: `media/hero.png` (1.75 m person for scale), `media/cutaway.png` (a cut across the canoe), `media/exploded.png` (one module bay with BOM callouts), `media/concept-blueprint.png`, `.pdf` and `.svg` (LVH-DWG-010), `media/model.glb` (3.4 MB, coarse tessellation) and `media/viewer.html`. No flow diagram: the kit moves no energy or material.
+- `bom/bom.csv`: 14 priced lines.
+
+### Results
+
+- The TRL 1 arrangement (foam low along the sides) does not work: with the same foam on the floor the swamped canoe has almost no roll stiffness and rolls over with the crew on one side. Modules high under the gunwale fix this.
+
+### Requirements not met
+
+- R10: over the value-engineering target (see TRL 3).
+- R9 cannot be shown on paper.
+
+### Decisions made under the pre-approval
+
+LVH-DDR-001, items D1 to D10: modules high under the gunwale; closed-cell polyethylene foam in covers; no lift counted from the hull timber; one reference canoe with an open calculator; crew in the water at 20 % of body weight; re-entry step stays parked; grab lines; life jacket message everywhere; first co-design candidates (not approached); R11 to R13 added.
+
+### Safety concerns
+
+- A swamped canoe that floats is still dangerous in breaking waves, at night and in cold water; the kit is never a substitute for life jackets, and it must not be promoted as one.
+
+## Session 2026-10-03: TRL 3 (advance and build plan)
+
+Run as the second half of `/to-trl3` under the same pre-approval, which counts as the TRL 2 approval. Not committed or pushed (batch run).
+
+### What was done
+
+- `cad/src/model.py`: parametric build123d model of the kit in the reference canoe (8.0 m, 1.6 m beam, 0.65 m deep, flared 31.6 deg, 15 hp outboard); 126 of 126 constructability checks pass (overlaps with planks, frames and thwarts; module, batten and chock contact; screw depth in the frames and clear of the planks; straps in the bays; eye bolts through the strake; gauge fit; clear width). Exports `cad/step/levelhull-assembly.step`, `levelhull-kit.step`, `reference-canoe-context.step`, the four foam cores, chock and gauge, and STL of the battens, chock and gauge.
+- `docs/04-calcs/01-sizing.md` (LVH-CAL-001 v0.1) with `docs/04-calcs/sizing.py` (also the MIT sizing calculator) and `results.csv`: swamped equilibrium, heel and trim, off-design cases, high against low placement, space and bailing, fixings, fitting time, cost and a sizing sheet for other hulls.
+- `cad/src/sheets.py`: general arrangement `cad/drawings/LVH-DWG-001` (SVG, PDF, PNG) at Rev P2, with section A-A at 1:20.
+- `cad/src/build_plan_media.py`: `docs/05-build-plan/overview.png`, 6 making sketches `cad/drawings/LVH-DWG-101` to `106`, 6 joint close-ups and 10 step pictures.
+- `docs/05-build-plan.md` (LVH-BLD-001 v0.1), `docs/06-design-decisions.md` (LVH-DEC-001 v0.1), `docs/decisions/0001-trl2-review-decisions.md` (LVH-DDR-001) and `docs/decisions/0002-design-for-construction.md` (LVH-DDR-002).
+- `cad/src/product_model.py` (appearance model) and render scenes exported with `.kit/export_views.py` to `/home/claude/renders/levelhull` for hero, exploded and detail views; photoreal renders and cards are made on Amish's Mac.
+- `project.yaml`: trl 3, trl_target 3, `design_state: constructable`, evidence listed; `budget_usd` unchanged. README leads with `media/render-hero.png` and has a "Building the prototype" section.
+
+### Results
+
+- Eight modules, 200 x 200 mm, 4.78 m a side, 0.38 m3 of foam; kit 67 kg; 7.6 % of the inside volume.
+- Swamped at the design load (118 kg net: four crew holding on, 36 kg motor, gear, catch), fresh water, no lift counted from the timber: 105 mm freeboard amidships, 80 mm at the lowest point, trim 0.45 deg; roll stiffness 742 kg m per radian; 2.2 times the design load carried at 50 mm freeboard.
+- Same foam on the floor: 17 kg m per radian; rolls over with four crew on one side.
+- Four crew on one side: 4.0 deg heel, 31 mm low-side freeboard. Largest module lost and 5 % uptake: still afloat with 9 mm. Typical 750 kg/m3 timber would add about 58 mm.
+- Bailing to 200 mm freeboard: about 6 minutes for two crew (estimate). Fixing factors: coach screw 5.5, D-ring 14.6, webbing 73. Fitting about 6.3 hours.
+- Value-engineering target: USD 1,000. Estimated cost of the constructable design: USD 1,350 for two canoes (USD 350 over the target); USD 677 for one kit.
+
+### Requirements not met
+
+- R10: over the value-engineering target by USD 350. Foam is 49 % of a kit; the overrun is accepted under the pre-approval and `budget_usd` is unchanged.
+- R9 (12 months without loss of lift) and the test half of R6 cannot be shown on paper.
+- R12 is met with a small margin (9 mm), and R13 leaves only 31 mm on the low side; both are recorded as operating rules, not redesigned.
+
+### Decisions made under the pre-approval
+
+- LVH-DDR-002: design for construction, changes C1 to C12 and assumptions A1 to A5.
+- No fishing use before the pull test, a one-bay proof load and a swamp test with a safety boat and life jackets.
+- Crews spread along both grab lines.
+- Appearance model departures (renders only): a sand beach slab under the canoe, a 1.75 m mannequin standing beside it, a repeated cut-back module bay for the detail view, and the canoe topsides shown painted blue.
+
+### Build plan findings
+
+- Design changes for construction (2026-10-03), all in LVH-DDR-002: modules high on the frame faces; four modules a side between the thwarts; parallelogram stacks of equal foam strips, no glue; shelf battens; coach screws into the frames only, tips 10 mm short of the planks; end chocks; webbing loops with D-ring buckles in the bays between frames; sewn tarpaulin covers with laced ends; a plywood setting gauge; grab-line eye bolts above the waterline; freeboard marks and bailers on lanyards.
+- The only new holes in the hull are the eight eye bolt holes in the top plank, above every waterline.
+- Items to confirm with real parts and hulls (foam data, frame sizes, hull mass, frame fastenings, fixing strengths, real loads, bailing rate, foam price) are in LVH-DEC-001.
+
+### Safety concerns
+
+- Flotation for the boat, not for people: never a substitute for life jackets, not certified. Safety stops S1 to S5 in LVH-BLD-001 gate drilling, the first swamp test, entering the water, filling the canoe and fishing use.
+- A floating swamped canoe can still roll in breaking waves; the kit buys time to bail and be seen.
+- With all crew on one side the low gunwale is 31 mm from the water; crews must spread out.
+- The fixings must not tear free: each carries at least twice its share of the full lift on paper, and the pull test and proof load confirm it before any swamp test.
+
+### Recommended next step
+
+The design looks ready for TRL 4 once Amish chooses to start it: fit one kit to a partner's canoe, pull-test and proof-load the fixings with CalRig, and run the first checks in LVH-BLD-001 section 5 in sheltered water with the first co-design candidate.
+
+## 2026-10-03: photoreal renders
+
+Rendered with Blender Cycles on Amish's Mac from `cad/src/product_model.py`; captioned with `.kit/photo_caption.py`; `media/card.png` and `media/social-preview.png` made with `.kit/cards.py`. Views: hero, exploded, detail. image_qc passes and `render.py --check` has no FAIL.
