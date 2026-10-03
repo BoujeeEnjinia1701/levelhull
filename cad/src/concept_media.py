@@ -113,10 +113,10 @@ def main():
         parts, project=PROJECT, title=f"{TITLE} concept", dwg_no="LVH-DWG-010",
         key_figures=[
             "Reference canoe 8.0 x 1.6 x 0.65 m, 15 hp outboard; each hull sized with the calculator",
-            f"8 modules of closed-cell PE foam, 200 x 200 mm, {D['run_side'] / 1000:.2f} m a side; {D['vol_total']:.2f} m3",
+            f"8 modules of closed-cell PE foam, {P['mod_w']:.0f} x 200 mm, {D['run_side'] / 1000:.2f} m a side; {D['vol_total']:.2f} m3",
             "Fitted high under the gunwale on shelf battens screwed to the frames",
             f"Swamped, design load: {float(r('F1')):.0f} mm freeboard amidships, {float(r('F2')):.0f} mm lowest",
-            f"Roll stiffness {float(r('F6')):.0f} kg m/rad; same foam on the floor {float(r('F17')):.0f}: capsizes",
+            f"Roll stiffness {float(r('F6')):.0f} kg m/rad; same foam on the floor: none with 5 kg more load",
             f"Kit {float(r('K1')):.0f} kg, USD {float(r('C1')):.0f} per canoe; never a substitute for life jackets",
         ],
         scale_figure=True, web_model=False, cut=False,

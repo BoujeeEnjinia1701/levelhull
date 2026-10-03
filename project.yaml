@@ -12,6 +12,7 @@ trl_evidence:
   - docs/03-requirements.md
   - docs/decisions/0001-trl2-review-decisions.md
   - docs/decisions/0002-design-for-construction.md
+  - docs/decisions/0003-wider-modules-r12-r13.md
   - docs/04-calcs/01-sizing.md
   - docs/04-calcs/sizing.py
   - docs/04-calcs/results.csv
@@ -29,7 +30,7 @@ pitch: >-
   Adds passive buoyancy so a swamped wooden fishing canoe floats level and can be bailed.
 problem: >-
   Wooden fishing canoes swamp in storms and waves, and once full of water they can roll or sink, leaving the crew in the water. Most small-scale fishers in these boats cannot swim to shore and many wear no life jacket.
-budget_usd: 1000  # value-engineering target for kits on two canoes (STANDARDS section 18); estimated cost of the constructable design USD 1,350
+budget_usd: 1000  # value-engineering target for kits on two canoes (STANDARDS section 18); estimated cost of the constructable design USD 1,360
 difficulty: 3  # 1 easiest, 5 hardest
 hero_image: media/hero.png
 licenses:

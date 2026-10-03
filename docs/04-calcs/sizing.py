@@ -207,6 +207,17 @@ def loads(case="level", A=A):
     return g
 
 
+def strap_length():
+    """Total webbing (m) for all straps: the outline each loop is pulled around plus 0.25 m of
+    tail and sewn D-ring end per strap."""
+    so = M.strap_outline(P)
+    per = sum(math.dist(so[i], so[(i + 1) % len(so)]) for i in range(len(so))) / 1000.0
+    return M.derived(P)["n_straps"] * (per + 0.25)
+
+
+STRAP_M = strap_length()
+
+
 def kit_masses():
     """Kit masses (kg) and their net weight in water, battens taken as neutral when submerged."""
     k = M.build_kit(P)
@@ -223,7 +234,7 @@ def kit_masses():
         "covers": cover_area * A["cover_kg_m2"],
         "battens and chocks": v_bat * A["rho_batten"],
         "screws, eye bolts, D-rings": 20 * 0.06 + 8 * 0.08 + 16 * 0.06,
-        "straps": 19.2 * 0.05 * 0.0025 * 1380,
+        "straps": STRAP_M * 0.05 * 0.0025 * 1380,
         "grab lines": 11.0 * 0.09,
         "bailers": 2 * 0.5,
     }
@@ -343,7 +354,7 @@ def Compound_(shapes):
 
 # ------------------------------------------------------------------ sizing calculator for other hulls
 def size_other(name, L_run, half_bot, half_top, depth, engine_kg, crew, gear_net=25.0, wood_above_kg=None):
-    """Simple prismatic estimate: module run per side (4 layers, 200 mm wide, top 30 mm below the
+    """Simple prismatic estimate: module run per side (4 layers, module width as the model, top 30 mm below the
     gunwale) for 50 mm freeboard at 1.5 times the design net load, with timber at 1,000 kg/m3.
     L_run: length of side free of thwarts available for modules (m)."""
     k = (half_top - half_bot) / depth
@@ -351,10 +362,11 @@ def size_other(name, L_run, half_bot, half_top, depth, engine_kg, crew, gear_net
     wa = (plank_above * 1000) if wood_above_kg is None else wood_above_kg
     net = crew * A["crew_kg"] * A["crew_hold_frac"] + engine_kg + gear_net + 7 + 5
     need = A["reserve_req"] * net + wa
-    per_m = 2 * 0.2 * 0.15 * 1000 - 2 * 0.2 * 0.2 * A["rho_foam"]   # both sides, submerged 150 mm at 50 mm freeboard
+    w = P["mod_w"] / 1000.0
+    per_m = 2 * w * 0.15 * 1000 - 2 * w * 0.2 * A["rho_foam"]   # both sides, submerged 150 mm at 50 mm freeboard
     run = need / per_m
     return {"name": name, "net_kg": net, "wood_above_kg": wa, "run_per_side_m": run, "run_avail_m": L_run,
-            "foam_m3": 2 * run * 0.2 * 0.2, "fits": run <= L_run}
+            "foam_m3": 2 * run * w * 0.2, "fits": run <= L_run}
 
 
 # ------------------------------------------------------------------ run
@@ -364,7 +376,8 @@ def main():
     out("G1", "Side flare of the reference canoe", round(D["angle_deg"], 1), "deg")
     out("G2", "Modules per canoe", D["n_modules"], "")
     out("G3", "Module run per side (four lengths)", D["run_side"], "mm")
-    out("G4", "Module section, 200 mm wide x 200 mm high (four 50 mm layers)", D["area"] / 1e6, "m2")
+    out("G4", f"Module section, {P['mod_w']:.0f} mm wide x {D['zt'] - D['zb']:.0f} mm high (four 50 mm layers)",
+        round(D["area"] / 1e6, 3), "m2")
     out("G5", "Module envelope volume, both sides", round(D["vol_total"], 3), "m3")
     out("G6", "Foam core volume (inside the covers)", round(V_CORE, 3), "m3")
     out("G7", "Module bottom and top above the outside of the bottom", f"{D['zb']:.0f} and {D['zt']:.0f}", "mm")
@@ -376,6 +389,7 @@ def main():
     kit_mass = sum(KM.values())
     out("K1", "Kit mass in all", round(kit_mass, 1), "kg")
     out("K2", "Cover area, eight sleeves with end flaps", round(COVER_A, 1), "m2")
+    out("K3", "Strap webbing, all straps", round(STRAP_M, 1), "m")
     L = loads("level")
     net = sum(w for _, w, *_ in L)
     for name, w, *_ in L:
@@ -420,6 +434,8 @@ def main():
         out("F18", "Same foam fitted low: metacentric height", round(rl["GMt"], 2), "m")
         out("F19", "Same foam fitted low: heel with four crew on one side",
             round(solve(ms, case="one_side", low=True, zb=85.0, zt=285.0)["heel"], 1), "deg")
+        rl5 = solve(ms, low=True, zb=85.0, zt=285.0, extra=5.0)
+        out("F20", "Same foam fitted low, 5 kg more load: roll stiffness", round(rl5["KT"]), "kg m per rad")
     # dry condition
     hv, outer, solid_in, below = hull_volumes()
     out("V1", "Hull inside volume below the gunwale", round(hv["outer_D"] - hv["shell_D"], 2), "m3")
@@ -443,7 +459,7 @@ def main():
         "R4", "met (estimate)" if t <= 15 else "NOT MET")
     out("B5", "Dry canoe: draft added by the kit (waterplane about 6.4 m2)", round(kit_mass / 6.4), "mm")
     # fixings, full submergence (worst case: canoe rolled or a wave buries the module)
-    big = max(D["mod_len"]) / 1000 * 0.2 * 0.2 * (1025 - A["rho_foam"]) * 9.81 / 1000
+    big = max(D["mod_len"]) / 1000 * D["area"] / 1e6 * (1025 - A["rho_foam"]) * 9.81 / 1000
     out("S1", "Largest module, full lift in salt water", round(big, 3), "kN")
     per_strap = big / 2
     out("S2", "Per strap (two straps, both legs)", round(per_strap, 3), "kN")

@@ -1,4 +1,4 @@
-"""LevelHull general arrangement sheet LVH-DWG-001, Rev P2 (TRL 3; LVH-DDR-002 applied).
+"""LevelHull general arrangement sheet LVH-DWG-001, Rev P3 (TRL 3; LVH-DDR-002 and LVH-DDR-003 applied).
 
 Run from the repo root:  python cad/src/sheets.py
 Writes cad/drawings/LVH-DWG-001.svg, .pdf and .png from the parametric model in cad/src/model.py
@@ -39,10 +39,11 @@ def main():
     sv = project_views(sec, work / "sec")
     sb = sec.bounding_box()
     s = Sheet(project="LevelHull", title="Flotation retrofit in the reference canoe: general arrangement",
-              dwg_no="LVH-DWG-001", rev="P2", author="Amish Chadha", date=DATE, scale=0.02,
+              dwg_no="LVH-DWG-001", rev="P3", author="Amish Chadha", date=DATE, scale=0.02,
               material="Kit per bom/bom.csv; canoe is the owner's boat (reference shown). PRELIMINARY, NOT FOR FABRICATION",
               revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", DATE, "AC"),
-                         ("P2", "LVH-DDR-002: design for construction", DATE, "AC")])
+                         ("P2", "LVH-DDR-002: design for construction", DATE, "AC"),
+                         ("P3", "LVH-DDR-003: modules widened to 220", DATE, "AC")])
     s.add_ortho(views)
     # section A-A at 1:20, left-aligned in the right column
     vw = (sb.max.Y - sb.min.Y) * SEC_K
@@ -71,7 +72,7 @@ def main():
     s.add_notes("Main sizes and figures (mm unless stated)", [
         "Reference canoe 8,000 long, beam 1,600, depth 650, flare 31.6 deg",
         f"8 modules, 4 a side: {', '.join(f'{v:,.0f}' for v in D['mod_len'])} long",
-        f"Module 200 wide x {D['zt'] - D['zb']:.0f} high, top {P['mod_top_gap']:.0f} below gunwale",
+        f"Module {P['mod_w']:.0f} wide x {D['zt'] - D['zb']:.0f} high, top {P['mod_top_gap']:.0f} below gunwale",
         "Module = four 50 PE foam layers in a tarpaulin sleeve (5, 6)",
         f"Battens 50 thick, {P['batten_h']:.0f} high, {P['batten_over']:.0f} past each module end",
         f"{D['n_screws']} coach screws M8 x 100, one into every frame crossed",
@@ -79,7 +80,7 @@ def main():
         "Chocks 40 long, 50 high, at both ends of every module",
         f"Eye bolts at {', '.join(f'{v:,.0f}' for v in P['eyes_x'])} from transom",
         "Freeboard mark: top edge 50 below the gunwale, amidships",
-        "Swamped, design load: 105 freeboard amidships, 80 lowest",
+        "Swamped, design load: 113 freeboard amidships, 92 lowest",
         "Third-angle; X from transom, Y to port; (n) = BOM line",
     ], x=276, y=112, width=146)
     out = s.save(ROOT / "cad" / "drawings" / "LVH-DWG-001")

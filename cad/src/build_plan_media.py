@@ -136,7 +136,7 @@ def sheets():
     core = bay("cores")
     bv.component_sheet(Part("Foam core", core, COL["core"]), nb, "LevelHull", "LVH-DWG-104",
                        "Foam core (8, four lengths)", "Closed-cell polyethylene foam, 50 mm sheet",
-                       ["Four layers of 50 foam, each a strip 196 wide (inside the cover).",
+                       [f"Four layers of 50 foam, each a strip {P['mod_w'] - 4:.0f} wide (inside the cover).",
                         "Cut both long edges of every strip at the flare angle, then stack",
                         "  so each layer sits 31 further outboard than the one below.",
                         "Lengths (cover inside): 876, 1,396 (two), 1,096; four layers each.",
@@ -147,8 +147,8 @@ def sheets():
     cov = bay("covers")
     bv.component_sheet(Part("Cover", cov, COL["cover"]), nb, "LevelHull", "LVH-DWG-105",
                        "Cover sleeve (8)", "PVC-coated polyester tarpaulin 650 g/m2",
-                       ["Sleeve 200 x 200 inside, module length long, with 150 end flaps.",
-                        "Cut 1,000 wide; sew a 130 overlap along the top inboard corner",
+                       [f"Sleeve {P['mod_w']:.0f} wide x 200 high inside, module length long, 150 end flaps.",
+                        "Cut 1,040 wide; sew a 130 overlap along the top inboard corner",
                         "  with UV-stabilised thread, two rows of stitching.",
                         "End flaps: eight 10 eyelets each, laced shut with 4 cord.",
                         "Slide the stacked core in, lace both ends tight.",
@@ -158,7 +158,7 @@ def sheets():
     bv.component_sheet(Part("Hold-down strap", Compound([st, pick("rings", "port", "2", "2400")]), COL["strap"]),
                        nb, "LevelHull", "LVH-DWG-106", "Hold-down strap with D-rings (16)",
                        "50 mm polyester webbing, stainless double D-rings",
-                       ["Cut 1,200 of 50 webbing; heat-seal both ends.",
+                       ["Cut 1,250 of 50 webbing; heat-seal both ends.",
                         "Sew a pair of D-rings into one end: 60 fold, box-and-cross stitch.",
                         "Passes round the module and under the batten, in a bay between",
                         "  frames, outboard of the module through the gap at the planks.",

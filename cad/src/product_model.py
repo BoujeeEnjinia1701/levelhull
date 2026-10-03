@@ -1,4 +1,5 @@
-"""LevelHull product appearance model (build123d), TRL 3, constructable design (LVH-DDR-002).
+"""LevelHull product appearance model (build123d), TRL 3, constructable design (LVH-DDR-002), with the
+220 mm wide modules of LVH-DDR-003 taken from model.py.
 
 Finished-product look for photoreal renders, built from the constructable model: every kit piece of
 cad/src/model.py build_kit() is used as it is (battens, coach screws, chocks, foam cores, covers,

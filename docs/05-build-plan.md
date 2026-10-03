@@ -3,7 +3,7 @@ doc_id: LVH-BLD-001
 title: LevelHull prototype build plan
 project: LevelHull
 doc_type: Build plan
-version: "0.1"
+version: "0.2"
 status: Draft
 date: '2026-10-03'
 author: Amish Chadha
@@ -13,6 +13,10 @@ revisions:
   date: '2026-10-03'
   author: Amish Chadha
   change: First build plan; design made constructable (LVH-DDR-002)
+- version: "0.2"
+  date: '2026-10-03'
+  author: Amish Chadha
+  change: Modules widened from 200 to 220 mm (LVH-DDR-003); foam strips, covers, straps and pictures updated
 ---
 
 # LevelHull prototype build plan
@@ -27,7 +31,7 @@ revisions:
 
 *Figure 1. The kit for one canoe, in build order. One of the eight module bays is shown; the counts are for the whole canoe.*
 
-The kit turns an ordinary planked fishing canoe into one that floats upright when it fills with water. It has eight buoyancy modules, four along each side, high under the gunwale between the thwarts. Each module is four layers of closed-cell foam in a sewn tarpaulin sleeve, sitting on a hardwood shelf batten that is screwed into the canoe's frames, held down by two webbing straps and kept from sliding by a wooden chock at each end. Grab lines along both sides, two bailers and a painted freeboard mark on each side complete it. Five parts are made (a plywood setting gauge, the battens, the chocks, the foam cores and the covers); the rest are bought. Parts cost about USD 677 per canoe. The sizes are for the reference canoe, 8.0 m long, 1.6 m in beam and 0.65 m deep with a 15 hp outboard; measure each canoe and size it with the calculator first.
+The kit turns an ordinary planked fishing canoe into one that floats upright when it fills with water. It has eight buoyancy modules, four along each side, high under the gunwale between the thwarts. Each module is four layers of closed-cell foam in a sewn tarpaulin sleeve, sitting on a hardwood shelf batten that is screwed into the canoe's frames, held down by two webbing straps and kept from sliding by a wooden chock at each end. Grab lines along both sides, two bailers and a painted freeboard mark on each side complete it. Five parts are made (a plywood setting gauge, the battens, the chocks, the foam cores and the covers); the rest are bought. Parts cost about USD 682 per canoe. The sizes are for the reference canoe, 8.0 m long, 1.6 m in beam and 0.65 m deep with a 15 hp outboard; measure each canoe and size it with the calculator first.
 
 ## 2. What changed to make it buildable
 
@@ -36,7 +40,7 @@ The kit turns an ordinary planked fishing canoe into one that floats upright whe
 | Component | The concept had | The buildable design has | Why |
 | --- | --- | --- | --- |
 | Modules | Blocks low along the sides | High under the gunwale, top 30 mm below it, lying on the frame faces | Upright when swamped |
-| Module shape | Rectangular blocks, one per side | Four per side between the thwarts, each a stack of four equal foam strips cut to the side slope | Sits flat on the sloping frames; light to handle |
+| Module shape | Rectangular blocks, one per side | Four per side between the thwarts, each a stack of four equal foam strips cut to the side slope, 220 mm wide and 200 mm high | Sits flat on the sloping frames; light to handle |
 | Seat | "Cleats" | A hardwood shelf batten under each module | Gives the straps an anchor and spreads the lift over the frames |
 | Fixings | Not specified | One coach screw into every frame a batten crosses, stopping short of the planks | No new holes in the planks below the waterline |
 | End stops | None | A chock at each end of each module | Stops the module creeping fore and aft |
@@ -132,7 +136,7 @@ The chock sits on the batten top at the end of the module, sloping face against 
 
 **How to make it.**
 
-1. Cut the sheets into strips 196 mm wide (measured level), with both long edges cut at the side slope, using a long knife or hot wire against a straightedge; four strips come from each sheet.
+1. Cut the sheets into strips 216 mm wide (measured level), with both long edges cut at the side slope, using a long knife or hot wire against a straightedge; four strips come from each sheet, which uses all 24 strips from the six sheets. Keep the narrow strip left at the edge of each sheet for the water uptake samples.
 2. Cut the strips to length: 876 mm (8 strips), 1,396 mm (16) and 1,096 mm (8).
 3. Stack four strips of the same length, each set 31 mm further outboard than the one below, so the stack's faces are flat parallelograms. No glue.
 
@@ -144,11 +148,11 @@ The chock sits on the batten top at the end of the module, sloping face against 
 
 ![Making sketch: cover](../cad/drawings/LVH-DWG-105.png)
 
-**What it is and what it is made from.** Eight sleeves of PVC-coated polyester tarpaulin, 650 g/m2, UV stabilised, sewn with UV-stabilised polyester thread. Inside size 200 x 200 mm by the module length (880, 1,400 or 1,100 mm), with 150 mm flaps at each end.
+**What it is and what it is made from.** Eight sleeves of PVC-coated polyester tarpaulin, 650 g/m2, UV stabilised, sewn with UV-stabilised polyester thread. Inside size 220 mm wide by 200 mm high by the module length (880, 1,400 or 1,100 mm), with 150 mm flaps at each end.
 
 **How to make it.**
 
-1. Cut a panel 1,000 mm wide by the module length plus 300 mm.
+1. Cut a panel 1,040 mm wide by the module length plus 300 mm.
 2. Fold it round a stacked core and sew a 130 mm overlap along the top inboard corner with two rows of stitching.
 3. Set eight 10 mm eyelets in each end flap.
 4. Slide the core in, fold the flaps and lace them shut with 4 mm cord.
@@ -161,11 +165,11 @@ The chock sits on the batten top at the end of the module, sloping face against 
 
 ![Making sketch: strap with D-rings](../cad/drawings/LVH-DWG-106.png)
 
-**What it is and what it is made from.** Sixteen loops of 50 mm UV-stabilised polyester webbing, about 1.2 m long, each with a pair of stainless double D-rings sewn into one end.
+**What it is and what it is made from.** Sixteen loops of 50 mm UV-stabilised polyester webbing, about 1.25 m long, each with a pair of stainless double D-rings sewn into one end.
 
 **How to make it.**
 
-1. Cut 1.2 m of webbing; heat-seal both ends.
+1. Cut 1.25 m of webbing; heat-seal both ends.
 2. Fold 60 mm of one end round both D-rings and sew it with a box-and-cross stitch.
 
 **How it fits the parts next to it.**

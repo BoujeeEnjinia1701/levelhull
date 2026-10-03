@@ -1,4 +1,4 @@
-"""LevelHull parametric model (build123d), TRL 3, constructable design (LVH-DDR-002).
+"""LevelHull parametric model (build123d), TRL 3, constructable design (LVH-DDR-002); modules 220 mm wide (LVH-DDR-003).
 
 Run from the repo root:  python cad/src/model.py [--check] [--export]
   --check   run the constructability checks (overlaps, contacts, screw depth, clearances)
@@ -59,7 +59,7 @@ PARAMS = {
     "mod_top_gap": 30.0,     # module top below the gunwale
     "layers": 4,             # 50 mm foam layers
     "layer_t": 50.0,
-    "mod_w": 200.0,          # horizontal width of the module (and of every foam layer)
+    "mod_w": 220.0,          # horizontal width of the module (and of every foam layer); 200 to 220 mm, LVH-DDR-003
     "cover_t": 2.0,
     "batten_t": 50.0,        # batten thickness square to the frame faces
     "batten_h": 70.0,        # vertical height of the batten
@@ -512,6 +512,10 @@ def checks(p=PARAMS):
     # space between the modules for work and catch (at the module tops)
     clear = 2 * (y_frame(d["zt"], p) - p["mod_w"])
     add("clear width between module tops at least 900 mm", clear >= 900, f"{clear:.0f} mm")
+    # foam strips: the cores are cut from 2,000 x 1,000 mm sheets; four strips of the module width must
+    # come from the width of one sheet (LVH-DDR-003), with 5 mm per saw cut
+    across = int((1000.0 + 5.0) // (p["mod_w"] + 5.0))
+    add("foam: four strips of the module width from a 1,000 mm sheet", across >= 4, f"{across} strips")
     return res
 
 

@@ -3,7 +3,7 @@ doc_id: LVH-PRB-001
 title: LevelHull problem statement
 project: LevelHull
 doc_type: Problem statement
-version: "0.2"
+version: "0.3"
 status: Draft
 date: '2026-10-03'
 author: Amish Chadha
@@ -17,6 +17,10 @@ revisions:
   date: '2026-10-03'
   author: Amish Chadha
   change: TRL 2 and 3 update; constraints restated, open questions settled (LVH-DDR-001), first co-design candidates, safety section
+- version: "0.3"
+  date: '2026-10-03'
+  author: Amish Chadha
+  change: Settled answers restated for the 220 mm modules (LVH-DDR-003)
 ---
 
 # LevelHull problem statement
@@ -86,9 +90,9 @@ These were the open questions of v0.1. Each is decided in LVH-DDR-001 under Amis
 
 | Question | Answer |
 | --- | --- |
-| Low along the sides, or higher under the gunwales? | High, under the gunwales, so the modules cut the waterline when the canoe is swamped. The same foam fitted low on the floor gives almost no roll stiffness (17 kg m per radian against 742) and the canoe rolls over with the crew on one side. |
+| Low along the sides, or higher under the gunwales? | High, under the gunwales, so the modules cut the waterline when the canoe is swamped. The same foam fitted low on the floor only just reaches the water surface: with four crew on one side it heels past 10 deg, and a few kilograms more load leave it with no roll stiffness at all, against 761 kg m per radian with the modules high. |
 | Foam or sealed chambers? | Closed-cell polyethylene foam in tarpaulin covers. A puncture loses no lift and nothing needs sealing; chambers are kept for the sibling LaneSkiff concept. |
-| How much lift does the wood give, and what does the motor change? | The design takes no credit for the wood: wet hull timber is counted as exactly as dense as water. A typical 750 kg/m3 hardwood would add about 58 mm of freeboard. The motor is counted at its full 36 kg at the transom; other motors are sized with the calculator. |
+| How much lift does the wood give, and what does the motor change? | The design takes no credit for the wood: wet hull timber is counted as exactly as dense as water. A typical 750 kg/m3 hardwood would add about 54 mm of freeboard. The motor is counted at its full 36 kg at the transom; other motors are sized with the calculator. |
 | Re-entry step? | Still parked; scope unchanged. Grab lines along both sides give the crew something to hold while they are in the water. |
 | Promotion without implying life jackets are optional | Every document, the fitting guide and the kit itself carry "never a substitute for life jackets"; the swamp test is run with every person in a life jacket. |
 

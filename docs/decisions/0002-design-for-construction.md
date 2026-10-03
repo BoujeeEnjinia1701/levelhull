@@ -3,7 +3,7 @@ doc_id: LVH-DDR-002
 title: LevelHull design for construction
 project: LevelHull
 doc_type: Design decision record
-version: "0.1"
+version: "0.2"
 status: Draft
 date: '2026-10-03'
 author: Amish Chadha
@@ -13,6 +13,10 @@ revisions:
   date: '2026-10-03'
   author: Amish Chadha
   change: Design made constructable; changes C1 to C12 and assumptions A1 to A5 decided under Amish's 2026-10-03 pre-approval
+- version: "0.2"
+  date: '2026-10-03'
+  author: Amish Chadha
+  change: C3 cross-referenced to LVH-DDR-003 (modules widened to 220 mm)
 ---
 
 # 0002: Design for construction
@@ -32,7 +36,7 @@ STANDARDS section 18 asks that every part can be made by a stated process and fi
 | --- | --- | --- | --- |
 | C1 | Blocks low along the inside faces | Modules high under the gunwale, top 30 mm below it, outboard face on the frames' inner faces | Roll stability when swamped (D1); the frame faces form a flat, regular bearing surface |
 | C2 | One block per side, size open | Four modules a side between the thwarts: 880, 1,400, 1,400 and 1,100 mm | Thwarts stay in place; each module is light (under 4 kg) and handled by one person |
-| C3 | Rectangular blocks | Parallelogram section 200 x 200 mm: four equal 50 mm strips with both long edges cut at the flare angle, each layer set 31 mm further out | Sits flat on the sloping frame faces; every strip is the same cut |
+| C3 | Rectangular blocks | Parallelogram section 200 x 200 mm (widened to 220 mm by LVH-DDR-003): four equal 50 mm strips with both long edges cut at the flare angle, each layer set 31 mm further out | Sits flat on the sloping frame faces; every strip is the same cut |
 | C4 | "Cleats" | A hardwood shelf batten under each module, 50 mm thick square to the frame faces, 70 mm high, 40 mm past each module end | Gives the module a seat and the straps an anchor, and spreads the lift over two or three frames |
 | C5 | Fixings unspecified | One M8 x 100 coach screw into every frame a batten crosses, square to the batten face, 50 mm into the frame, tip 10 mm short of the planks | No new holes in the planking below the waterline; screw factor 5.5 on the full lift |
 | C6 | Nothing stopping fore and aft movement | End chocks 40 mm long and 50 mm high screwed to the batten at both ends of each module | The straps alone could let a module creep along the batten |

@@ -4,7 +4,7 @@
 
 ![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827) [![REUSE compliant](https://github.com/BoujeeEnjinia1701/levelhull/actions/workflows/reuse.yml/badge.svg)](https://github.com/BoujeeEnjinia1701/levelhull/actions/workflows/reuse.yml)
 
-**Area:** Food and water security · **TRL:** 3 of 9 (proof of concept on paper) · **Value-engineering target:** USD 1,000 for two prototype canoes (estimated cost of the constructable design USD 1,350) · **Difficulty:** 3 of 5
+**Area:** Food and water security · **TRL:** 3 of 9 (proof of concept on paper) · **Value-engineering target:** USD 1,000 for two prototype canoes (estimated cost of the constructable design USD 1,360) · **Difficulty:** 3 of 5
 
 Adds passive buoyancy so a swamped wooden fishing canoe floats level and can be bailed.
 
@@ -55,13 +55,13 @@ Full problem statement: [docs/01-problem.md](docs/01-problem.md)
 
 ## Concept
 
-A retrofit kit of eight closed-cell polyethylene foam modules, four a side, fitted high under the gunwale on hardwood battens screwed to the canoe's frames and held by webbing straps. When a wave swamps the canoe, the modules cut the waterline along both sides, so it floats upright and level with about 100 mm of freeboard; the crew hold the grab lines, climb back in and bail. On paper, the 8 m reference canoe with a 15 hp motor and four crew holding on keeps 80 mm of freeboard at its lowest point, with 2.2 times the needed lift in reserve; the same foam laid on the floor would let it roll over. Never a substitute for life jackets.
+A retrofit kit of eight closed-cell polyethylene foam modules, four a side, fitted high under the gunwale on hardwood battens screwed to the canoe's frames and held by webbing straps. When a wave swamps the canoe, the modules cut the waterline along both sides, so it floats upright and level with about 100 mm of freeboard; the crew hold the grab lines, climb back in and bail. On paper, the 8 m reference canoe with a 15 hp motor and four crew holding on keeps 92 mm of freeboard at its lowest point, with 2.45 times the needed lift in reserve; the same foam laid on the floor would barely reach the surface and would lose all roll stiffness with a few kilograms more load. Never a substitute for life jackets.
 
 Full design precis: [docs/02-concept.md](docs/02-concept.md) · Requirements: [docs/03-requirements.md](docs/03-requirements.md) · Calculations and sizing calculator: [docs/04-calcs/01-sizing.md](docs/04-calcs/01-sizing.md) · Prototype build plan: [docs/05-build-plan.md](docs/05-build-plan.md) · Design decisions: [docs/06-design-decisions.md](docs/06-design-decisions.md)
 
 ## Key components
 
-- Eight buoyancy modules: four 50 mm layers of closed-cell polyethylene foam, 200 x 200 mm, in sewn PVC tarpaulin covers
+- Eight buoyancy modules: four 50 mm layers of closed-cell polyethylene foam, 220 mm wide by 200 mm high, in sewn PVC tarpaulin covers
 - Hardwood shelf battens screwed into the frames with M8 coach screws that stop short of the planks, and end chocks
 - Two 50 mm webbing hold-down straps per module with stainless D-ring buckles
 - Grab lines along both sides on through-bolted eye bolts

@@ -3,7 +3,7 @@ doc_id: LVH-PRC-001
 title: LevelHull design precis
 project: LevelHull
 doc_type: Precis
-version: "0.2"
+version: "0.3"
 status: Draft
 date: '2026-10-03'
 author: Amish Chadha
@@ -17,6 +17,10 @@ revisions:
   date: '2026-10-03'
   author: Amish Chadha
   change: TRL 2 and 3 update; modules high under the gunwale, constructable kit (LVH-DDR-001, LVH-DDR-002), first-order numbers, safety
+- version: "0.3"
+  date: '2026-10-03'
+  author: Amish Chadha
+  change: Modules widened from 200 to 220 mm (LVH-DDR-003); first-order numbers updated
 ---
 
 # LevelHull design precis
@@ -78,18 +82,18 @@ From LVH-CAL-001 (`docs/04-calcs/sizing.py`); fresh water, design load unless st
 
 | Quantity | Value | Assumption |
 | --- | --- | --- |
-| Modules | 8, each 200 x 200 mm, 4.78 m a side, 0.38 m3 | Reference canoe, thwarts at 1.2, 3.0 and 4.8 m |
+| Modules | 8, each 220 mm wide x 200 mm high, 4.78 m a side, 0.42 m3 | Reference canoe, thwarts at 1.2, 3.0 and 4.8 m |
 | Design net load | 118 kg | Four crew holding on (20 % of 75 kg each), 36 kg motor, anchor, nets, catch |
-| Freeboard, swamped | 105 mm amidships, 80 mm lowest (transom) | Timber at 1,000 kg/m3; trim 0.45 deg stern down |
-| Reserve | Carries 257 kg at 50 mm freeboard: 2.2 times the design load | |
-| Roll stiffness | 742 kg m per radian (metacentric height 3.1 m) | Waterplane of modules and planks |
-| Same foam on the floor | 17 kg m per radian; rolls over with four crew on one side | For comparison only |
-| Four crew on one side | 4.0 deg heel, 31 mm freeboard on the low side | |
-| Largest module lost and 5 % water uptake | Still floats, 9 mm freeboard | |
-| Bailing to 200 mm freeboard | 1.26 m3, about 6 minutes for two crew (estimate) | 100 L per minute each, calm water |
-| Kit mass | 67 kg; dry canoe sits about 11 mm deeper | |
-| Share of the inside volume | 7.6 % | |
-| Parts cost | USD 677 per canoe; USD 1,350 for two | Value-engineering target USD 1,000 for two |
+| Freeboard, swamped | 113 mm amidships, 92 mm lowest (transom) | Timber at 1,000 kg/m3; trim 0.39 deg stern down |
+| Reserve | Carries 290 kg at 50 mm freeboard: 2.45 times the design load | |
+| Roll stiffness | 761 kg m per radian (metacentric height 3.1 m) | Waterplane of modules and planks |
+| Same foam on the floor | Foam top just at the water: heels 10.6 deg with four crew on one side, and no roll stiffness at all with 5 kg more load | For comparison only |
+| Four crew on one side | 3.9 deg heel, 44 mm freeboard on the low side | |
+| Largest module lost and 5 % water uptake | Still floats, 25 mm freeboard | |
+| Bailing to 200 mm freeboard | 1.17 m3, about 6 minutes for two crew (estimate) | 100 L per minute each, calm water |
+| Kit mass | 69 kg; dry canoe sits about 11 mm deeper | |
+| Share of the inside volume | 8.4 % | |
+| Parts cost | USD 682 per canoe; USD 1,360 for two | Value-engineering target USD 1,000 for two |
 
 ## Patent design-arounds
 

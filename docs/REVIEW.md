@@ -99,3 +99,38 @@ The design looks ready for TRL 4 once Amish chooses to start it: fit one kit to 
 ## 2026-10-03: photoreal renders
 
 Rendered with Blender Cycles on Amish's Mac from `cad/src/product_model.py`; captioned with `.kit/photo_caption.py`; `media/card.png` and `media/social-preview.png` made with `.kit/cards.py`. Views: hero, exploded, detail. image_qc passes and `render.py --check` has no FAIL.
+
+2026-10-03: hero render reframed so the product fills the frame (levelhull).
+
+## 2026-10-03: Amish's requirement decisions carried out
+
+Amish chose option A on every requirement decision put to him: "1A 2A 3A 4A 5A 6A 7A 8A 9A 10A 11A". For LevelHull this is decision 10A (R12 and R13): enlarge the foam modules about 10 %. Not committed or pushed (batch run).
+
+### Changes
+
+- Modules widened from 200 to 220 mm (level width), 200 mm high as before; lengths, positions, battens, chocks, screws and eye bolts unchanged (`cad/src/model.py`). 0.42 m3 of module in all (was 0.38 m3). New model check: four strips of the module width come from a 1,000 mm foam sheet. 127 of 127 constructability checks pass. STEP and STL regenerated.
+- `docs/04-calcs/sizing.py` takes the module width from the model everywhere (fixing loads, sizing sheet) and now computes the strap webbing (K3) and the floor comparison with 5 kg more load (F20). `docs/04-calcs/01-sizing.md` v0.2 and `results.csv` re-run.
+- `bom/bom.csv`: foam strips 216 mm wide, four to a sheet, still six sheets (no spare strip); tarpaulin 14 to 15 m2 at the same USD 5.00 per m2; straps cut 1.25 m (20 m of the 25 m bought).
+- `docs/03-requirements.md` v0.3 (targets unchanged, status updated), `docs/02-concept.md` v0.3, `docs/01-problem.md` v0.3, `docs/05-build-plan.md` v0.2 (foam strips, cover panel 1,040 mm wide, straps 1.25 m), README figures, `docs/decisions/0002-design-for-construction.md` v0.2 (cross-reference), new `docs/decisions/0003-wider-modules-r12-r13.md` (LVH-DDR-003), `docs/06-design-decisions.md` v0.2.
+- Pictures: general arrangement `cad/drawings/LVH-DWG-001` at Rev P3; making sketches LVH-DWG-101 to 106, overview, joints and steps regenerated (foam core, cover and strap sketches carry the new sizes); concept media (hero, cutaway, exploded, blueprint, `model.glb`). Appearance model scenes re-exported to `/home/claude/renders/levelhull` (hero, exploded, detail).
+
+### New results
+
+- R12 (still floats with the largest module lost and 5 % uptake): 25 mm lowest freeboard, 1.5 deg heel (was 9 mm). Met on paper with a usable margin.
+- R13 (heel within 10 deg with all four crew on one grab line): 3.9 deg, low-side freeboard 44 mm (was 4.0 deg and 31 mm). Met on paper; the low side is still under 50 mm, so the rule that crews spread along both grab lines stays.
+- Also changed: R2 92 mm lowest freeboard (was 80); R1 and R11 reserve 2.45 (was 2.17); R3 trim 0.39 deg; R5 8.4 % of the inside volume (was 7.6 %); R7 lowest factor 5.0 (coach screw, was 5.5); R4 about 6 minutes; clear width between module tops 923 mm (check 900 mm).
+- Kit mass 68.9 kg (was 67.4 kg).
+- Value-engineering target: USD 1,000. Estimated cost of the constructable design: USD 1,360 (USD 360 over the target); USD 682 for one kit. `budget_usd` unchanged.
+- Floor comparison: with 0.42 m3 the same foam on the floor just reaches the surface (283 kg m per radian, 10.6 deg with the crew on one side, over the 10 deg limit) and has no roll stiffness with 5 kg more load. The case for the high modules (LVH-DDR-001, D1) stands; the "rolls over" wording is replaced in the documents.
+
+### For Amish
+
+- No new decisions. The photoreal renders (`media/render-*.png`), card and social preview still show the 200 mm modules (a 20 mm change, hardly visible at this scale); re-render on the Mac from the re-exported scenes when convenient.
+
+### Safety
+
+- Unchanged: LevelHull is never a substitute for life jackets; swamp tests only in sheltered, shallow water with a safety boat and everyone in life jackets.
+
+## 2026-10-03: photoreal renders redone after Amish's requirement decisions
+
+Rendered with Blender Cycles on Amish's Mac from `cad/src/product_model.py`; captioned with `.kit/photo_caption.py`; `media/card.png` and `media/social-preview.png` made with `.kit/cards.py`. Views: hero, exploded, detail. image_qc passes and `render.py --check` has no FAIL.
