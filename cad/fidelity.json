@@ -1,0 +1,50 @@
+{
+ "level": "D3",
+ "stage": "P3",
+ "hash": "d8461cfe41c436bc",
+ "options": {
+  "A": {
+   "title": "Foam modules high inside",
+   "parts": 213,
+   "made_or_bought": 109,
+   "fasteners": 104,
+   "welds": 0,
+   "bare": [
+    "Freeboard mark port",
+    "Freeboard mark starboard"
+   ],
+   "bare_share": 0.018,
+   "interference": [],
+   "mass_kg": 101.3,
+   "step_files": 109
+  },
+  "B": {
+   "title": "External foam sponsons",
+   "parts": 124,
+   "made_or_bought": 28,
+   "fasteners": 96,
+   "welds": 0,
+   "bare": [],
+   "bare_share": 0.0,
+   "interference": [],
+   "mass_kg": 98.7,
+   "step_files": 0
+  },
+  "C": {
+   "title": "Double outrigger floats",
+   "parts": 124,
+   "made_or_bought": 16,
+   "fasteners": 104,
+   "welds": 4,
+   "bare": [],
+   "bare_share": 0.0,
+   "interference": [],
+   "mass_kg": 159.9,
+   "step_files": 0
+  }
+ },
+ "failures": [],
+ "warnings": [],
+ "passed": true,
+ "seconds": 35.2
+}

@@ -1,0 +1,22 @@
+option,item,value,unit
+A,Freeboard brim-full straight after swamping,24,mm
+A,"Lowest freeboard, load +20 % and foam -5 %",76,mm
+A,"GM partly bailed, 200 mm freeboard, free surface included",0.14,m
+A,Loaded dry draft (all aboard),175,mm
+A,"Lowest freeboard, timber 1,100 / 1,200 kg/m3",75 / 57,mm
+A,"Roll stiffness, sealed hull brim-full / trapped at lake level",70 / 1213,kg m/rad
+A,"Bail from brim-full to 200 mm, 4 x 50 L/min",11,min
+B,Foam volume,0.421,m3
+B,Swamped lowest freeboard,158,mm
+B,Swamped roll stiffness,1546,kg m/rad
+B,"Four crew on one side: heel, low-side freeboard","1.9 deg, 123 mm",
+B,One sponson lost and 5 % uptake: lowest freeboard,-32,mm
+B,Overall beam over the sponsons,1929,mm
+B,Sponson bottom above the loaded dry waterline,185,mm
+C,Float volume (both),0.438,m3
+C,"Kit mass (floats, booms, struts, steel)",128.8,kg
+C,Swamped lowest freeboard,160,mm
+C,Swamped roll stiffness,6313,kg m/rad
+C,"Four crew on one side: heel, low-side freeboard","0.5 deg, 132 mm",
+C,One float lost: result,capsizes or heels past 10 deg,
+C,Overall beam over the floats,4450,mm

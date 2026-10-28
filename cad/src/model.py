@@ -24,7 +24,7 @@ Kit, per canoe (BOM line numbers in brackets, see bom/bom.csv):
   [9]  double D-ring buckles, stainless, 16 pairs
   [10] grab-line eye bolts, M8 stainless, 8
   [11] grab lines, 12 mm polyester rope, 2
-  [12] bailers, 10 L buckets with lanyards, 2
+  [12] bailers, 10 L buckets with lanyards, 4 (LVH-DEC-001 D-O3)
   [13] freeboard marks, painted (swamp test kit), 2
 CONCEPT, NOT FOR FABRICATION.
 """
@@ -36,6 +36,7 @@ from build123d import (Box, Compound, Cylinder, Face, Plane, Pos, Rot, Solid, To
                        extrude, mirror, export_step, export_stl)
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path[:0] = [str(ROOT / "cad" / "src"), str(ROOT / ".kit")]
 
 PARAMS = {
     # reference design canoe (context, to be measured on each real hull)
@@ -73,9 +74,34 @@ PARAMS = {
     "eye_z": 625.0,
     "rope_d": 12.0,
     "rope_sag": 150.0,
-    "bailers_x": [2400.0, 4200.0],
+    "bailers_x": [1800.0, 2400.0, 3600.0, 4200.0],   # four bailers, one per crew member (LVH-DEC-001 D-O3, 2026-10-25)
     "mark": (2900.0, 3300.0, 50.0, 20.0),  # x from, x to, top edge below gunwale, band height
     "gauge_t": 12.0,
+    # option A detail (kit 1.9, LVH-DEC-001): fasteners and holes; no design dimension above changes
+    "screw_washer": (8.4, 24.0, 2.0),     # coach screw washer: bore, outside diameter, thickness
+    "screw_hole": 9.0,                    # clearance hole in the batten for the M8 coach screw
+    "chock_screw": (5.0, 60.0),           # stainless wood screw, two per chock
+    "chock_screw_e": (15.0, 35.0),        # their offsets from the frame face, square to it
+    "chock_screw_dx": 8.0,                # and fore and aft of the chock centre
+    "chock_cbore": (12.0, 30.0),          # counterbore diameter and depth along the screw (LVH-DEC-001 D-S1)
+    "edge_r": 2.0,                        # edge break on battens and chocks
+    # option B: external foam sponsons (concept option, LVH-OPT-001)
+    "B_sponsons": [(260.0, 2650.0), (3350.0, 5740.0)],   # x ranges, each side
+    "B_zb": 360.0, "B_zt": 560.0,         # sponson bottom and top above the outside of the bottom
+    "B_w": 220.0,                         # sponson width, level
+    "B_batten": (50.0, 70.0),             # outside shelf batten: thickness square to the planks, height
+    "B_clamp": (20.0, 40.0),              # top clamp strip: thickness, height (up to the rubbing strake)
+    "B_flange": 2.0,                      # cover flange (doubled tarpaulin) clamped under batten and strip
+    # option C: double outrigger floats (concept option, LVH-OPT-001)
+    "C_booms_x": [1200.0, 4800.0],        # over the aft and forward thwarts
+    "C_boom": (120.0, 90.0, 4500.0),      # hardwood boom: width along the boat, depth, length across
+    "C_saddle_t": 30.0,
+    "C_float_y": 2100.0, "C_float_z": 350.0,
+    "C_float": (250.0, 9.6, 4460.0),      # HDPE pipe PE100 SDR 26: outside diameter, wall, length
+    "C_float_x0": 770.0,
+    "C_cap_t": 20.0,
+    "C_post": 75.0,                       # strut post section
+    "C_foot": (320.0, 70.0),              # strut foot: length across, height
 }
 
 
@@ -520,23 +546,411 @@ def checks(p=PARAMS):
 
 
 def export(p=PARAMS):
+    """Legacy STEP set (assembly, kit, canoe, foam cores, chock, gauge) and STL of the made timber parts, from the
+    detailed kit 1.9 parts. Per-part STEP files of every option come from python .kit/cad_check.py --export.
+    STL chord tolerance 0.15 mm (STANDARDS section 24)."""
     step = ROOT / "cad" / "step"
     stl = ROOT / "cad" / "stl"
     step.mkdir(parents=True, exist_ok=True)
     stl.mkdir(parents=True, exist_ok=True)
-    c = build_components(p)
-    kit = Compound([c[k] for k in BOM if k != "gauge"])
+    dk = detail_kit(p)
+    kit = Compound([s for key in dk for _, s in dk[key]])
     export_step(Compound([kit, context_compound(p)]), str(step / "levelhull-assembly.step"))
     export_step(kit, str(step / "levelhull-kit.step"))
     export_step(context_compound(p), str(step / "reference-canoe-context.step"))
     k = build_kit(p)
+    parts = {q["name"]: q["shape"] for q in option_a(p, with_hull=False)}
+    tol = dict(tolerance=0.15, angular_tolerance=0.2)
     for i, L in enumerate(derived(p)["mod_len"]):
         export_step(k["cores"][i][1], str(step / f"foam-core-{i + 1}-{L:.0f}mm.step"))
-        export_stl(k["battens"][i][1], str(stl / f"shelf-batten-{i + 1}.stl"), tolerance=0.5, angular_tolerance=0.3)
-    export_step(k["chocks"][0][1], str(step / "end-chock.step"))
+        export_stl(parts[f"Shelf batten port {i + 1}"], str(stl / f"shelf-batten-{i + 1}.stl"), **tol)
+    export_step(parts["End chock port 1 aft"], str(step / "end-chock.step"))
     export_step(gauge(p), str(step / "setting-gauge.step"))
-    export_stl(gauge(p), str(stl / "setting-gauge.stl"), tolerance=0.5, angular_tolerance=0.3)
-    export_stl(k["chocks"][0][1], str(stl / "end-chock.stl"), tolerance=0.5, angular_tolerance=0.3)
+    export_stl(gauge(p), str(stl / "setting-gauge.stl"), **tol)
+    export_stl(parts["End chock port 1 aft"], str(stl / "end-chock.stl"), **tol)
+
+
+# ================================================================ kit 1.9 interface (STANDARDS section 24)
+# Every concept option is modelled at D3 with .kit/cad_parts.py and cad/src/lvh_parts.py. Option A is the
+# design of LVH-DDR-002 and LVH-DDR-003 with its numbers unchanged; only the modelling is richer (holes,
+# every fastener, edge breaks, separate foam layers). build_kit() above stays the envelope model that
+# docs/04-calcs/sizing.py reads; detail_kit() gives the same pieces in the detailed form for the pictures.
+import cad_parts as cp  # noqa: E402
+import lvh_parts as lp  # noqa: E402
+
+TITLE = "LevelHull"
+OPTIONS = {"A": "Foam modules high inside", "B": "External foam sponsons", "C": "Double outrigger floats"}
+PRINCIPLES = {
+    "A": "Closed-cell foam strapped high under the gunwales inside the hull cuts the waterline of the swamped "
+         "canoe along both sides, so it floats level on its own foam and can be bailed",
+    "B": "The same foam carried outside the hull below the rubbing strake as a collar: lift and waterplane "
+         "outboard of the planks, and extra roll stiffness for the dry canoe as it heels",
+    "C": "Two sealed HDPE pipe floats on hardwood booms 2.1 m out from the centreline hold the swamped canoe "
+         "up and upright by their lift and their long lever arm (as on an East African ngalawa)",
+}
+CHOSEN = "A"
+OPTION_VIEWS = {
+    "A": {"el": 24, "az": -55, "scale": "person", "keep_context": True, "ground_z": 0},
+    "B": {"el": 24, "az": -55, "scale": "person", "keep_context": True, "ground_z": 0},
+    "C": {"el": 24, "az": -55, "scale": "person", "keep_context": True, "ground_z": 0},
+}
+ALLOWED_CONTACTS = []
+
+MAT = {"wood": "hardwood", "foam": "insulated_white", "cover": "canvas", "web": "canvas", "ss": "stainless",
+       "galv": "galvanised", "rope": "rope", "ply": "plywood", "paint": "safety_red", "hdpe": "hdpe_black",
+       "bucket": "hdpe_natural"}
+COL = {"foam": "#EDE6C8", "cover": "#E2621B", "web": "#1E40AF", "bucket": "#16A34A", "rope": "#0F766E"}
+
+
+def _ccw_mirror(shape, sgn):
+    return shape if sgn > 0 else mirror(shape, about=Plane.XZ)
+
+
+def _y(v, sgn):
+    return v if sgn > 0 else -v
+
+
+def hull_parts(p=PARAMS, motor=False):
+    """The owner's canoe (context): planking, each frame, thwarts and rubbing strakes."""
+    h = hull_context(p)
+    out = [cp.part("Reference canoe planking (owner's boat)", h["shell"], "timber", kind="context", group="canoe",
+                   color="#2F6E8F")]
+    for i, f in enumerate(h["frames"]):
+        out.append(cp.part(f"Canoe frame {i + 1} (owner's boat)", f, "timber", kind="context", group="canoe"))
+    for i, t in enumerate(h["thwarts"]):
+        out.append(cp.part(f"Canoe thwart {i + 1} (owner's boat)", t, "timber", kind="context", group="canoe"))
+    for i, s in enumerate(h["strakes"]):
+        out.append(cp.part(f"Rubbing strake {'port' if i == 0 else 'starboard'} (owner's boat)", s, "timber",
+                           kind="context", group="canoe"))
+    if motor:
+        out.append(cp.part("15 hp outboard motor (owner's)", motor_context(p), "matte_black", kind="context",
+                           group="canoe"))
+    return out
+
+
+def layer_sections(sec, n):
+    """Split a parallelogram section [(ob, zb), (ob, zt), (ib, zt), (ib, zb)] into n equal layers."""
+    (y0, z0), (y1, z1), (y2, _), (y3, _) = sec
+    out = []
+    for i in range(n):
+        za, zc = z0 + (z1 - z0) * i / n, z0 + (z1 - z0) * (i + 1) / n
+        fa, fc = i / n, (i + 1) / n
+        oa, oc = y0 + (y1 - y0) * fa, y0 + (y1 - y0) * fc
+        ia, ic = y3 + (y2 - y3) * fa, y3 + (y2 - y3) * fc
+        out.append([(oa, za), (oc, zc), (ic, zc), (ia, za)])
+    return out
+
+
+# ---------------------------------------------------------------- option A (chosen), detailed
+def _chock_screw_axes(x_c, p=PARAMS):
+    """Points on the chock top and the downward direction (parallel to the frame face) of its two screws,
+    port side. Returns [(top point (x, y, z), direction (0, dy, dz))]."""
+    d = derived(p)
+    ca, sa = d["cos"], d["sin"]
+    z1 = d["zb"] + p["chock"][1]
+    down = (0.0, -sa, -ca)
+    out = []
+    for e, dx in zip(p["chock_screw_e"], (-p["chock_screw_dx"], p["chock_screw_dx"])):
+        y = y_frame(z1, p) - e * ca + (e * sa / ca) * (-sa)
+        z = z1 + e * sa - (e * sa / ca) * ca
+        out.append(((x_c + dx, y, z), down))
+    return out
+
+
+def option_a(p=PARAMS, with_hull=True):
+    d = derived(p)
+    msec, csec = module_section(p), module_section(p, p["cover_t"])
+    bsec, ksec = batten_section(p), chock_section(p)
+    so = strap_outline(p)
+    so_out = offset_convex(so, p["strap_t"])
+    wb_in, wb_out, wb_t = p["screw_washer"]
+    cs_d, cs_l = p["chock_screw"]
+    cb_d, cb_h = p["chock_cbore"]
+    out = []
+    for side, sgn in (("port", 1), ("starboard", -1)):
+        S = lambda s: _ccw_mirror(s, sgn)  # noqa: E731
+        for i, ((x0, x1), fr, sx) in enumerate(zip(p["modules"], d["frames_in"], d["straps"])):
+            tag = f"{side} {i + 1}"
+            bo = p["batten_over"]
+            bat = cp.break_edges(prism(bsec, x0 - bo, x1 + bo), p["edge_r"])
+            # coach screws, one into every frame the batten crosses
+            for xf in fr:
+                head, tip, n = screw_points(xf, p)
+                bat = bat - lp.bore(head, (0, -n[0], -n[1]), p["screw_hole"], p["batten_t"] + 2, back=2)
+                nn = (0, n[0], n[1])
+                w = lp.place(lp.wide_washer(wb_in, wb_out, wb_t), head, nn)
+                hp = (head[0], head[1] + n[0] * wb_t, head[2] + n[1] * wb_t)
+                s = lp.place(cp.coach_screw(int(p["screw"][0]), p["screw"][1]), hp, nn)
+                out.append(cp.part(f"Washer 8.4 x 24 {tag} frame {xf:.0f}", S(w), MAT["ss"], "fastener", bom=3,
+                                   group="kit"))
+                out.append(cp.part(f"Coach screw M8 x 100 {tag} frame {xf:.0f}", S(s), MAT["ss"], "fastener",
+                                   bom=3, group="kit"))
+            # end chocks, each with two counterbored wood screws driven parallel to the frame face
+            for end, (c0, c1) in (("aft", (x0 - p["chock"][0], x0)), ("fwd", (x1, x1 + p["chock"][0]))):
+                ch = cp.break_edges(prism(ksec, c0, c1), p["edge_r"] * 0.75)
+                for k, (top, dn) in enumerate(_chock_screw_axes((c0 + c1) / 2, p)):
+                    ch = ch - lp.bore(top, dn, cb_d, cb_h, back=5) - lp.bore(top, dn, cs_d + 0.5, cb_h + cs_l + 1)
+                    bat = bat - lp.bore(top, dn, cs_d + 0.5, cb_h + cs_l + 1)
+                    hp = (top[0], top[1] + dn[1] * cb_h, top[2] + dn[2] * cb_h)
+                    ws = lp.place(lp.wood_screw(cs_d, cs_l), hp, (0, -dn[1], -dn[2]))
+                    out.append(cp.part(f"Wood screw 5 x 60 chock {tag} {end} {k + 1}", S(ws), MAT["ss"], "fastener",
+                                       bom=4, group="kit"))
+                out.append(cp.part(f"End chock {tag} {end}", S(ch), MAT["wood"], "made", bom=4, group="kit"))
+            out.append(cp.part(f"Shelf batten {tag}", S(bat), MAT["wood"], "made", bom=2, group="kit"))
+            # foam core: four separate strips; cover sleeve round them
+            for j, ls in enumerate(layer_sections(csec, p["layers"])):
+                lay = cp.break_edges(prism(ls, x0 + p["cover_t"], x1 - p["cover_t"]), 1.5)
+                out.append(cp.part(f"Foam strip {tag} layer {j + 1}", S(lay), MAT["foam"], "bought", bom=5,
+                                   group="internal", color=COL["foam"]))
+            env = prism(msec, x0, x1)
+            core = prism(csec, x0 + p["cover_t"], x1 - p["cover_t"])
+            out.append(cp.part(f"Cover {tag}", S(env - core), MAT["cover"], "made", bom=6, group="kit",
+                               color=COL["cover"]))
+            for xs in sx:
+                wdt = p["strap_w"]
+                loop = prism(so_out, xs - wdt / 2, xs + wdt / 2) - prism(so, xs - wdt / 2 - 1, xs + wdt / 2 + 1)
+                out.append(cp.part(f"Hold-down strap {tag} at {xs}", S(loop), MAT["web"], "made", bom=8, group="kit",
+                                   color=COL["web"]))
+                yr = (msec[2][0] + msec[1][0]) / 2 - 40
+                ring = Pos(xs, yr - 20, d["zt"] + p["strap_t"] + 0.3) * lp.d_ring_pair(wdt)
+                out.append(cp.part(f"D-ring buckle {tag} at {xs}", S(ring), MAT["ss"], "bought", bom=9, group="kit"))
+        # grab-line eye bolts through the rubbing strake and top plank, washers and nyloc nuts inside
+        ez = p["eye_z"]
+        yo = half(p["D"], 0, p) + p["strake"][0]
+        yin = half(ez, p["t"], p)
+        ring_y = None
+        for xe in p["eyes_x"]:
+            w_out = lp.place(cp.washer(8), (xe, yo, ez), (0, 1, 0))
+            o = (xe, yo + cp.ISO[8][4], ez)
+            eb = lp.place(lp.eye_bolt(8, 100, 24, 6), o, (0, 1, 0))
+            w_in = lp.place(cp.washer(8), (xe, yin, ez), (0, -1, 0))
+            nut = lp.place(lp.nyloc_nut(8), (xe, yin - cp.ISO[8][4], ez), (0, -1, 0))
+            ring_y = o[1] + 5 + 15 + 3 - 1
+            for nm, s in (("Eye bolt M8 x 100", eb), ("Washer M8 outside", w_out), ("Washer M8 inside", w_in),
+                          ("Nyloc nut M8", nut)):
+                out.append(cp.part(f"{nm} grab line {side} at {xe:.0f}", S(s), MAT["ss"], "fastener", bom=10,
+                                   group="kit"))
+        pts = []
+        xs_ = p["eyes_x"]
+        for a, b in zip(xs_[:-1], xs_[1:]):
+            pts += [(a, ring_y, ez - 2), ((a + b) / 2, ring_y + 15, ez - 2 - p["rope_sag"])]
+        pts.append((xs_[-1], ring_y, ez - 2))
+        ends = [(xs_[0] - 120, ring_y, ez - 2 - 90)] + pts + [(xs_[-1] + 120, ring_y, ez - 2 - 90)]
+        out.append(cp.part(f"Grab line {side}", S(cp.rope(ends, p["rope_d"])), MAT["rope"], "bought", bom=11,
+                           group="kit", color=COL["rope"]))
+        mx0, mx1, below, bh = p["mark"]
+        ztop = p["D"] - below
+        band = [(half(ztop - bh, 0, p), ztop - bh), (half(ztop, 0, p), ztop),
+                (half(ztop, 0, p) + 1.2, ztop), (half(ztop - bh, 0, p) + 1.2, ztop - bh)]
+        out.append(cp.part(f"Freeboard mark {side}", S(prism(band, mx0, mx1)), MAT["paint"], "made", bom=13,
+                           group="kit"))
+    # bailers on the floor between frames, lanyards to the middle thwart
+    for xb in p["bailers_x"]:
+        b = Solid.make_cone(110, 135, 260) - Pos(0, 0, 4) * Solid.make_cone(106, 131, 260)
+        rim = Pos(0, 0, 252) * (Cylinder(139, 8) - Cylinder(131, 8))
+        bucket = Pos(xb, 0, p["t"]) * (b + rim)
+        out.append(cp.part(f"Bailer at {xb:.0f}", bucket, MAT["bucket"], "bought", bom=12, group="kit",
+                           color=COL["bucket"]))
+        tx = 3000.0 + (-110.0 if xb < 3000 else 110.0)
+        sgn = 1 if xb < 3000 else -1
+        sy = -1 if abs(xb - 3000.0) > 900.0 else 1     # the outer pair's lanyards run on the other side, clear of the inner buckets (D-O3)
+        my = 220.0 if sy < 0 else 60.0
+        lan = cp.rope([(xb + sgn * 146, 0, p["t"] + 262), ((xb + tx) / 2, sy * my, p["t"] + 200), (tx, sy * 120, 405)], 6)
+        out.append(cp.part(f"Bailer lanyard at {xb:.0f}", lan, MAT["rope"], "bought", bom=12, group="kit"))
+    # setting gauge: a fitting tool, shown lying flat on the ground beside the canoe
+    g = gauge(p)
+    bb = g.bounding_box()
+    g = Rot(0, 90, 0) * Pos(-bb.center().X, -bb.center().Y, -bb.center().Z) * g
+    gb = g.bounding_box()
+    g = Pos(2100, 1500, -gb.min.Z) * g
+    out.append(cp.part("Setting gauge (fitting tool, beside the canoe)", g, MAT["ply"], "made", bom=1, group="tool"))
+    if with_hull:
+        out += hull_parts(p)
+    return out
+
+
+# ---------------------------------------------------------------- option B, external sponsons
+def option_b(p=PARAMS, with_hull=True):
+    k, ca, sa, a = slope(p)
+    zb, zt, W = p["B_zb"], p["B_zt"], p["B_w"]
+    fl = p["B_flange"]
+    bt, bh = p["B_batten"]
+    ct, chh = p["B_clamp"]
+    m_out = (ca, -sa)                          # outward normal of the planks (y, z), port side
+    off = lambda z, e: half(z, 0, p) + e / ca  # noqa: E731  (point offset e outward, square to the planks)
+    sec = [(off(zb, 0), zb), (off(zt, 0), zt), (off(zt, 0) + W, zt), (off(zb, 0) + W, zb)]
+    csec = [(sec[0][0] + 2 / ca, zb + 2), (sec[1][0] + 2 / ca, zt - 2), (sec[2][0] - 2 / ca, zt - 2),
+            (sec[3][0] - 2 / ca, zb + 2)]
+    bsec = [(off(zb - bh, fl), zb - bh), (off(zb, fl), zb), (off(zb, fl + bt), zb), (off(zb - bh, fl + bt), zb - bh)]
+    ksec = [(off(zt, fl), zt), (off(zt + chh, fl), zt + chh), (off(zt + chh, fl + ct), zt + chh), (off(zt, fl + ct), zt)]
+    fsec_b = [(off(zb - bh, 0), zb - bh), (off(zb, 0), zb), (off(zb, fl), zb), (off(zb - bh, fl), zb - bh)]
+    fsec_t = [(off(zt, 0), zt), (off(zt + chh, 0), zt + chh), (off(zt + chh, fl), zt + chh), (off(zt, fl), zt)]
+    grip_in = p["t"] + p["frame_moulded"]
+    out = []
+    for side, sgn in (("port", 1), ("starboard", -1)):
+        S = lambda s: _ccw_mirror(s, sgn)  # noqa: E731
+        for i, (x0, x1) in enumerate(p["B_sponsons"]):
+            tag = f"{side} {i + 1}"
+            bat = cp.break_edges(prism(bsec, x0, x1), p["edge_r"])
+            clamp = cp.break_edges(prism(ksec, x0, x1), 1.5)
+            env = prism(sec, x0, x1)
+            core = prism(csec, x0 + 2, x1 - 2)
+            cover = (env - core) + prism(fsec_b, x0, x1) + prism(fsec_t, x0, x1)
+            for xf in [f for f in p["frames"] if x0 + 40 < f < x1 - 40]:
+                for zc, thick, name in ((zb - bh / 2, bt, "batten"), (zt + chh / 2, ct, "clamp strip")):
+                    y_pl = half(zc, 0, p)
+                    face = (xf, y_pl + (fl + thick) * m_out[0], zc + (fl + thick) * m_out[1])
+                    grip = fl + thick + grip_in
+                    hole = lp.bore(face, (0, -m_out[0], -m_out[1]), 9.0, grip + 2, back=2)
+                    if name == "batten":
+                        bat = bat - hole
+                    else:
+                        clamp = clamp - hole
+                    cover = cover - hole
+                    for nm, s in cp.hex_bolt_set(8, grip):
+                        out.append(cp.part(f"{nm} sponson {tag} {name} frame {xf:.0f}",
+                                           S(lp.place(s, face, (0, m_out[0], m_out[1]))), MAT["galv"], "fastener",
+                                           group="kit"))
+            for j, ls in enumerate(layer_sections(csec, 4)):
+                lay = cp.break_edges(prism(ls, x0 + 2, x1 - 2), 1.5)
+                out.append(cp.part(f"Sponson foam strip {tag} layer {j + 1}", S(lay), MAT["foam"], "bought",
+                                   group="internal", color=COL["foam"]))
+            out.append(cp.part(f"Sponson cover with flanges {tag}", S(cover), MAT["cover"], "made", group="kit",
+                               color=COL["cover"]))
+            out.append(cp.part(f"Outside shelf batten {tag}", S(bat), MAT["wood"], "made", group="kit"))
+            out.append(cp.part(f"Top clamp strip {tag}", S(clamp), MAT["wood"], "made", group="kit"))
+    if with_hull:
+        out += hull_parts(p)
+    return out
+
+
+# ---------------------------------------------------------------- option C, double outrigger floats
+def option_c(p=PARAMS, with_hull=True):
+    bw, bd, bl = p["C_boom"]
+    D = p["D"]
+    st = p["C_saddle_t"]
+    zb0 = D + st                                       # boom underside
+    yf, zf = p["C_float_y"], p["C_float_z"]
+    od, wall, fl = p["C_float"]
+    R = od / 2
+    fx0 = p["C_float_x0"]
+    pw = p["C_post"]
+    foot_l, foot_h = p["C_foot"]
+    y_in = half(D, p["t"], p) + 0.5
+    yo = half(D, 0, p) + p["strake"][0]
+    yb = half(D, 0, p) + p["strake"][0] / 2              # vertical bolt line through the strake
+    foot_z0 = zf + R - 20
+    foot_z1 = foot_z0 + foot_h
+    out = []
+    for bi, bx in enumerate(p["C_booms_x"]):
+        boom = cp.break_edges(Pos(bx, 0, zb0 + bd / 2) * Box(bw, bl, bd), 3.0)
+        for sgn in (1, -1):
+            side = "port" if sgn > 0 else "starboard"
+            sad = cp.break_edges(Pos(bx, _y((y_in + yo) / 2, sgn), D + st / 2) * Box(bw, yo - y_in, st), 1.5)
+            grip = bd + st + p["strake"][1]
+            for dx in (-35.0, 35.0):
+                top = (bx + dx, _y(yb, sgn), zb0 + bd)
+                hole = lp.bore(top, (0, 0, -1), 11.0, grip + 2, back=2)
+                boom = boom - hole
+                sad = sad - hole
+                for nm, s in cp.hex_bolt_set(10, grip):
+                    out.append(cp.part(f"{nm} boom {bi + 1} {side} saddle {dx:+.0f}", lp.place(s, top, (0, 0, 1)),
+                                       MAT["galv"], "fastener", group="kit"))
+            out.append(cp.part(f"Gunwale saddle boom {bi + 1} {side}", sad, MAT["wood"], "made", group="kit"))
+            # strut: post and foot in one hardwood piece, against the forward face of the boom
+            xp0, xp1 = bx + bw / 2, bx + bw / 2 + pw
+            xc = (xp0 + xp1) / 2
+            yc = _y(yf, sgn)
+            post = Pos(xc, yc, (foot_z1 + zb0 + bd) / 2) * Box(pw, pw, zb0 + bd - foot_z1)
+            foot = Pos(xc, yc, (foot_z0 + foot_z1) / 2) * Box(pw, foot_l, foot_h)
+            pipe_cut = Pos(xc, yc, zf) * Rot(0, 90, 0) * Cylinder(R, pw + 10)
+            strut = cp.break_edges(post + foot, 1.5) - pipe_cut
+            grip = pw + bw
+            for zz in (zb0 + 22.0, zb0 + bd - 22.0):
+                face = (xp1, yc, zz)
+                hole = lp.bore(face, (-1, 0, 0), 11.0, grip + 2, back=2)
+                strut = strut - hole
+                boom = boom - hole
+                for nm, s in cp.hex_bolt_set(10, grip):
+                    out.append(cp.part(f"{nm} strut {bi + 1} {side} z{zz:.0f}", lp.place(s, face, (1, 0, 0)),
+                                       MAT["galv"], "fastener", group="kit"))
+            ub_leg = foot_z1 + 2 + 8.4 + 6 - zf
+            for dx in (-18.0, 18.0):
+                ub, Ru = lp.u_bolt(od, 10, ub_leg - (R + 3 + 5))
+                out.append(cp.part(f"U-bolt M10 strut {bi + 1} {side} {dx:+.0f}", Pos(xc + dx, yc, zf) * ub,
+                                   MAT["ss"], "fastener", group="kit"))
+                for yy in (yc - Ru, yc + Ru):
+                    strut = strut - lp.bore((xc + dx, yy, foot_z1), (0, 0, -1), 11.0, foot_h + 30, back=2)
+                    out.append(cp.part(f"Washer M10 U-bolt {bi + 1} {side} {dx:+.0f} {yy:.0f}",
+                                       Pos(xc + dx, yy, foot_z1) * cp.washer(10), MAT["ss"], "fastener", group="kit"))
+                    out.append(cp.part(f"Nyloc nut M10 U-bolt {bi + 1} {side} {dx:+.0f} {yy:.0f}",
+                                       Pos(xc + dx, yy, foot_z1 + cp.ISO[10][4]) * lp.nyloc_nut(10), MAT["ss"],
+                                       "fastener", group="kit"))
+            out.append(cp.part(f"Float strut boom {bi + 1} {side}", strut, MAT["wood"], "made", group="kit"))
+        out.append(cp.part(f"Outrigger boom {bi + 1}", boom, MAT["wood"], "made", group="kit"))
+    for sgn in (1, -1):
+        side = "port" if sgn > 0 else "starboard"
+        yc = _y(yf, sgn)
+        tube = Pos(fx0, yc, zf) * Rot(0, 90, 0) * cp.round_tube(od, wall, fl)
+        out.append(cp.part(f"Float pipe {side}, HDPE 250 SDR 26", tube, MAT["hdpe"], "bought", group="kit"))
+        for end, xe in (("aft", fx0), ("fwd", fx0 + fl)):
+            x_cap = xe - p["C_cap_t"] if end == "aft" else xe
+            cap = cp.break_edges(Pos(x_cap, yc, zf) * Rot(0, 90, 0) * Pos(0, 0, p["C_cap_t"] / 2) *
+                                 Cylinder(R, p["C_cap_t"]), 2.0)
+            out.append(cp.part(f"Float end cap {side} {end}", cap, MAT["hdpe"], "made", group="kit"))
+            bead = Pos(xe, yc, zf) * Rot(0, 90, 0) * lp.ring_bead(R, 6.0, 3.0)
+            out.append(cp.part(f"Butt-fusion bead {side} {end}", bead, MAT["hdpe"], "weld", group="kit"))
+    if with_hull:
+        out += hull_parts(p)
+    return out
+
+
+def components(option=CHOSEN, p=PARAMS):
+    """kit 1.9: the parts of one concept option as cad_parts.part() dicts (context: the owner's canoe)."""
+    return {"A": option_a, "B": option_b, "C": option_c}[option](p)
+
+
+KEYMAP = [("Shelf batten", "battens", "batten"), ("Coach screw", "screws", "screw"), ("Washer 8.4", "screws", "screw"),
+          ("End chock", "chocks", "chock"), ("Wood screw", "chocks", "chock"), ("Foam strip", "cores", "core"),
+          ("Cover", "covers", "cover"), ("Hold-down strap", "straps", "strap"), ("D-ring buckle", "rings", "D-rings"),
+          ("Grab line", "grablines", "grab line"), ("Freeboard mark", "marks", "freeboard mark"),
+          ("Bailer", "bailers", "bailer")]
+
+
+def detail_kit(p=PARAMS):
+    """The detailed option A pieces grouped like build_kit(): {key: [(label, shape)]}, one entry per batten,
+    chock, module, strap and so on, with its fasteners fused in; labels keep build_kit's words ("batten port 2",
+    "screw port 2 frame 2100", "strap port 2 at 2400") so the picture scripts can pick pieces by token."""
+    parts = [q for q in option_a(p, with_hull=False) if q["group"] != "tool"]
+    out = {k: [] for k in ("battens", "screws", "chocks", "cores", "covers", "straps", "rings", "eyes", "grablines",
+                           "bailers", "marks")}
+    import re
+    groups = {}
+    for q in parts:
+        n = q["name"]
+        if "grab line" in n and q["kind"] == "fastener":
+            side = n.split("grab line ")[1].split()[0]
+            groups.setdefault(("eyes", f"eye bolts {side}"), []).append(q["shape"])
+            continue
+        for prefix, key, word in KEYMAP:
+            if n.startswith(prefix):
+                rest = n[len(prefix):].strip()
+                if key == "screws":
+                    rest = re.sub(r"^(M8 x 100|x 24)\s*", "", rest)
+                if key == "chocks":
+                    m = re.search(r"(port|starboard) (\d) (aft|fwd)", rest)
+                    label = f"chock {m.group(1)} {m.group(2)} {m.group(3)}"
+                elif key == "cores":
+                    label = "core " + re.sub(r" layer \d", "", rest)
+                elif key == "bailers":
+                    label = "bailer " + rest.replace("lanyard ", "")
+                else:
+                    label = f"{word} {rest}"
+                groups.setdefault((key, label), []).append(q["shape"])
+                break
+    for (key, label), shapes in groups.items():
+        out[key].append((label, shapes[0] if len(shapes) == 1 else Compound(shapes)))
+    return out
 
 
 if __name__ == "__main__":

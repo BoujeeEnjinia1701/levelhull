@@ -3,9 +3,9 @@ doc_id: LVH-BLD-001
 title: LevelHull prototype build plan
 project: LevelHull
 doc_type: Build plan
-version: "0.2"
+version: '0.4'
 status: Draft
-date: '2026-10-03'
+date: '2026-10-25'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -17,6 +17,14 @@ revisions:
   date: '2026-10-03'
   author: Amish Chadha
   change: Modules widened from 200 to 220 mm (LVH-DDR-003); foam strips, covers, straps and pictures updated
+- version: "0.3"
+  date: '2026-10-24'
+  author: Amish Chadha
+  change: End chock screws driven parallel to the frame face in counterbores (LVH-DEC-001 D-S1); pictures redrawn from the detailed kit 1.9 model; references updated
+- version: '0.4'
+  date: '2026-10-25'
+  author: Amish Chadha
+  change: 'Four bailers (D-O3) in section 3.9, step 10 and the bail-out check; the operating rule of D-O2 at step 10 (Amish''s decisions of 2026-10-25); overview picture regenerated'
 ---
 
 # LevelHull prototype build plan
@@ -43,7 +51,7 @@ The kit turns an ordinary planked fishing canoe into one that floats upright whe
 | Module shape | Rectangular blocks, one per side | Four per side between the thwarts, each a stack of four equal foam strips cut to the side slope, 220 mm wide and 200 mm high | Sits flat on the sloping frames; light to handle |
 | Seat | "Cleats" | A hardwood shelf batten under each module | Gives the straps an anchor and spreads the lift over the frames |
 | Fixings | Not specified | One coach screw into every frame a batten crosses, stopping short of the planks | No new holes in the planks below the waterline |
-| End stops | None | A chock at each end of each module | Stops the module creeping fore and aft |
+| End stops | None | A chock at each end of each module, its two screws driven parallel to the frame face in counterbores so they bite 31 mm into the batten | Stops the module creeping fore and aft |
 | Straps | "Fixing straps" | Closed webbing loops round module and batten, in the bays between frames, with D-ring buckles | No separate anchor; nothing to corrode or jam |
 | Covers | "Protective covers" | Sewn tarpaulin sleeves with laced ends | Made and replaced by a tailor; foam can be checked |
 | Fitting | Measured by hand | A plywood setting gauge for the batten height | Same height on every frame |
@@ -116,7 +124,9 @@ The wide face lies on the frame faces; the top edge is on the upper gauge mark. 
 
 1. Cut the offcut to 40 mm lengths.
 2. Trim each to 50 mm high, keeping the sloping face.
-3. Drill two 4 mm pilot holes down through each and seal the cut ends.
+3. On the top face mark two screw points, 15 mm and 35 mm out from the sloping face (measured square to it), 8 mm either side of the middle of the block.
+4. At each point drill a 12 mm counterbore 30 mm deep and then a 4 mm pilot through the block, both parallel to the sloping face (31.6 deg off vertical on the reference canoe; set a bevel gauge from the batten and drill along it).
+5. Seal the cut ends and the holes.
 
 **How it fits the parts next to it.**
 
@@ -124,7 +134,7 @@ The wide face lies on the frame faces; the top edge is on the upper gauge mark. 
 
 *Figure 5. An end chock on the batten, against the end of the module.*
 
-The chock sits on the batten top at the end of the module, sloping face against the frame line, screwed down with two 5 x 60 mm stainless screws. The gap between the two chocks of a batten is the module length plus 5 mm.
+The chock sits on the batten top at the end of the module, sloping face against the frame line, screwed down with two 5 x 60 mm stainless screws driven through the counterbores parallel to the frame face, so each screw goes 31 mm into the batten and stays inside it. A screw driven straight down would reach only 10 mm into the batten. The gap between the two chocks of a batten is the module length plus 5 mm.
 
 **Check before moving on.** The chock does not move when pushed by hand.
 
@@ -188,7 +198,7 @@ Each strap goes in a bay between two frames, under the batten, up between the mo
 
 ### 3.7 Coach screws (bought)
 
-Twenty-four M8 x 100 mm hex coach screws with 24 mm washers, stainless A4 or hot-dip galvanised (20 fitted, 4 spare). Bed each in sealer.
+Twenty-four M8 x 100 mm hex coach screws with 24 mm washers, stainless A4 (20 fitted, 4 spare); not galvanised, as tannins in wet hardwood attack zinc. Bed each in sealer.
 
 ### 3.8 Grab-line eye bolts and grab lines (bought)
 
@@ -202,7 +212,7 @@ Drill 8 mm through the rubbing strake and top plank, 25 mm below the gunwale top
 
 ### 3.9 Bailers and swamp test kit (bought)
 
-Two 10 L plastic buckets with 1.5 m lanyards of 6 mm rope; orange marine enamel, masking tape and a bubble inclinometer reading to 1 deg; sealer for the battens, chocks and holes.
+Four 10 L plastic buckets, one for each crew member (LVH-DEC-001 D-O3, decided by Amish 2026-10-25), with 1.5 m lanyards of 6 mm rope; orange marine enamel, masking tape and a bubble inclinometer reading to 1 deg; sealer for the battens, chocks and holes.
 
 ## 4. Putting it together
 
@@ -230,7 +240,7 @@ Through each clearance hole, drill a 5.5 mm pilot 50 mm deep into the frame, squ
 
 ![Step 4](05-build-plan/step-04.png)
 
-Set the aft chock at the batten's aft end mark, then the forward chock so the gap is the module length plus 5 mm. Two screws each.
+Set the aft chock at the batten's aft end mark, then the forward chock so the gap is the module length plus 5 mm. Drill 3 mm pilots 30 mm into the batten through each chock's holes, along the same slope, and drive two screws in each.
 
 ### Step 5: lay the straps
 
@@ -266,7 +276,7 @@ Tie one end to the aft eye, pass the line through each eye, leaving a bight abou
 
 ![Step 10](05-build-plan/step-10.png)
 
-Mask and paint a 20 mm orange band on the outside of each side amidships (2.9 to 3.3 m from the transom), its top edge 50 mm below the top of the gunwale. Tie the bailers to a thwart and stow them on the floor between frames.
+Mask and paint a 20 mm orange band on the outside of each side amidships (2.9 to 3.3 m from the transom), its top edge 50 mm below the top of the gunwale. Tie the four bailers to the middle thwart and stow them on the floor between frames, two each side of the thwart. Tell the crew the operating rule for a swamping: hold on, then bail at once, seated (LVH-DEC-001 D-O2).
 
 ## 5. First checks
 
@@ -280,7 +290,7 @@ Mask and paint a 20 mm orange band on the outside of each side amidships (2.9 to
 | Swamp test, design load | R1, R2, R3, R11 | In sheltered water under 1.2 m deep, fill the canoe with motor and gear aboard and four crew holding on in life jackets; read freeboard and inclinometer after 1 hour | Afloat; water below both freeboard marks; heel and trim within 10 deg |
 | Crew on one side | R13 | All four crew hold one grab line | Heel within 10 deg |
 | One module out | R12 | Remove the largest module and repeat | Still afloat |
-| Bail-out | R4 | Two crew bail with the two bailers, timed | 200 mm freeboard within 15 minutes |
+| Bail-out | R4 | The four crew bail with the four bailers from brim-full, seated, timed | 200 mm freeboard within 15 minutes |
 | Fitting time | R8 | Time the fitting on the second canoe | One working day |
 
 ## 6. Safety stops
@@ -296,14 +306,14 @@ Work stops at each point below until what is listed is true.
 ## 7. Tools, skills and workspace
 
 - Workshop: a table saw or ripping saw and a hand plane for the battens; a long knife or hot wire and a straightedge for the foam; a sewing machine for heavy canvas, or a tailor or sail maker; an eyelet punch.
-- At the canoe: a bevel gauge, clamps, a drill with 4, 5.5, 8 and 9 mm bits and a depth flag, a 13 mm socket wrench, screwdrivers, masking tape and a brush.
+- At the canoe: a bevel gauge, clamps, a drill with 3, 4, 5.5, 8, 9 and 12 mm bits and a depth flag, a 13 mm socket wrench, screwdrivers, masking tape and a brush.
 - Skills: a canoe builder or carpenter for the battens and screws; a tailor or sail maker for the covers.
 - Workspace: shade and a level place on the beach for the canoe; a sheltered shallow place with a safety boat for the swamp test.
 
 ## 8. Where the numbers come from
 
-- Model and checks: `cad/src/model.py` (126 constructability checks pass), STEP files in `cad/step/`.
-- General arrangement: `cad/drawings/LVH-DWG-001` (Rev P2); making sketches `cad/drawings/LVH-DWG-101` to `106`; pictures from `cad/src/build_plan_media.py`.
+- Model and checks: `cad/src/model.py` (constructability checks; kit 1.9 detail check in `cad/fidelity.json`), STEP files in `cad/step/` (one per made or bought part in `cad/step/A/`).
+- General arrangement: `cad/drawings/LVH-DWG-001` (Rev P5); making sketches `cad/drawings/LVH-DWG-101` to `106`; pictures from `cad/src/build_plan_media.py`.
 - Calculations: `docs/04-calcs/01-sizing.md` (LVH-CAL-001) and `docs/04-calcs/sizing.py`, with `docs/04-calcs/results.csv`.
 - Parts: `bom/bom.csv`.
 - Changes for construction: `docs/decisions/0002-design-for-construction.md` (LVH-DDR-002).

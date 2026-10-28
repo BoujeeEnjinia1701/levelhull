@@ -49,7 +49,7 @@ A = {
     "heel_trim_req": 10.0,      # deg, R3
     "reserve_req": 1.5,         # capacity at 50 mm freeboard over the design net load
     "bail_rate_lpm": 100.0,     # litres per minute per person with a 10 L bucket, calm water (estimate)
-    "bailers": 2,
+    "bailers": 4,               # one per crew member (LVH-DEC-001 D-O3, decided by Amish 2026-10-25; was 2)
     "work_freeboard": 200.0,    # mm, freeboard at which the canoe can be worked and motored home
     "uptake": 0.05,             # R6 limit: foam loses up to 5 % of its lift to water uptake
     "webbing_kN": 10.0, "dring_kN": 4.0, "screw_shear_kN": 1.5,
@@ -151,7 +151,9 @@ def foam(hz, ms, p=P, zb=None, zt=None, low=False):
         My += v * yc
         Mz += v * (zb + top) / 2000.0
         if zb < hz < zt:
-            yw = s * (M.y_frame(hz, p) - p["mod_w"] / 2) / 1000.0
+            # waterplane strip at the module's own position (the floor case sits 0.25 m out; fixed 2026-10-24
+            # after the independent review of LVH-STM-001, which found the high position used for both)
+            yw = 0.25 * s if low else s * (M.y_frame(hz, p) - p["mod_w"] / 2) / 1000.0
             It += L * W ** 3 / 12 + L * W * yw ** 2
             a = L * W
             Aw += a
@@ -236,7 +238,7 @@ def kit_masses():
         "screws, eye bolts, D-rings": 20 * 0.06 + 8 * 0.08 + 16 * 0.06,
         "straps": STRAP_M * 0.05 * 0.0025 * 1380,
         "grab lines": 11.0 * 0.09,
-        "bailers": 2 * 0.5,
+        "bailers": 4 * 0.5,
     }
     net = {
         "covers": m["covers"] * (1 - 1000 / A["rho_pvc"]),
@@ -286,8 +288,8 @@ def solve(ms, case="level", rho=1000.0, wood_rho=None, factor=1.0, extra=0.0, lo
     fy = sum(s * (x1 - x0) for s, x0, x1 in ms) / sum((x1 - x0) for s, x0, x1 in ms) * (M.y_frame((zb_ + zt_) / 2) - P["mod_w"] / 2) / 1000
     Wt.append((A["rho_foam"] * fv, fx, fy if not low else 0.0, (zb_ + zt_) / 2000))
     Wt.append((rho * va, xa / 1000, 0.0, za / 1000))             # timber above water, at design density
-    if wood_rho < rho:
-        Wt.append(((wood_rho - rho) * vt, 3.4, 0.0, 0.30))       # lighter timber: net lift (negative weight)
+    if wood_rho != rho:
+        Wt.append(((wood_rho - rho) * vt, 3.4, 0.0, 0.30))       # lighter timber: net lift (negative weight); denser: added weight
     Wt.append((kit_net + extra, 3.1, 0.0, 0.45))
     Wsum = sum(w for w, *_ in Wt)
     zG = sum(w * z for w, _, _, z in Wt) / Wsum
@@ -455,7 +457,7 @@ def main():
     v_bail = v_in - water_ok
     t = v_bail * 1000 / (A["bail_rate_lpm"] * A["bailers"])
     out("B3", "Water to bail out", round(v_bail, 2), "m3")
-    out("B4", "Bail-out time, two crew at 100 L/min each (estimate)", round(t, 1), "min",
+    out("B4", f"Bail-out time from the lake-level condition, {A['bailers']} crew at 100 L/min each (estimate)", round(t, 1), "min",
         "R4", "met (estimate)" if t <= 15 else "NOT MET")
     out("B5", "Dry canoe: draft added by the kit (waterplane about 6.4 m2)", round(kit_mass / 6.4), "mm")
     # fixings, full submergence (worst case: canoe rolled or a wave buries the module)
@@ -476,7 +478,7 @@ def main():
     out("S8", "Per frame, 10 frames per side", round(total_lift / 20, 3), "kN")
     # fitting time (R8), minutes, estimate for one builder and one helper
     tasks = [("mark batten heights on 20 frame faces with the gauge", 40), ("cut, plane and seal 8 battens", 120),
-             ("drill and screw 20 coach screws", 60), ("cut and screw 16 chocks", 40),
+             ("drill and screw 20 coach screws", 60), ("cut, counterbore and screw 16 chocks", 60),   # 60 min with the counterbores of LVH-DEC-001 D-S1
              ("lay 16 straps, fit 8 modules, close straps", 50), ("drill and fit 8 eye bolts, reeve grab lines", 50),
              ("paint freeboard marks, tie bailers", 20)]
     tf = sum(m for _, m in tasks)
@@ -486,10 +488,12 @@ def main():
     rows = list(csv.DictReader((ROOT / "bom" / "bom.csv").open()))
     kit = sum(float(x["qty"]) * float(x["unit_cost_usd"]) for x in rows)
     out("C1", "Parts cost of one kit", round(kit, 2), "USD")
-    two = 2 * kit - float(rows[0]["qty"]) * float(rows[0]["unit_cost_usd"])
+    line = lambda x: x["item"].split()[0]   # noqa: E731  (kit 1.9 BOM: item column "1 Setting gauge")
+    gauge = [x for x in rows if line(x) == "1"][0]
+    two = 2 * kit - float(gauge["qty"]) * float(gauge["unit_cost_usd"])
     out("C2", "Parts for two canoes (one gauge)", round(two, 2), "USD",
         "R10", f"over the value-engineering target by USD {two - 1000:,.0f}" if two > 1000 else "met")
-    foam_cost = [float(x["qty"]) * float(x["unit_cost_usd"]) for x in rows if x["line"] == "5"][0]
+    foam_cost = [float(x["qty"]) * float(x["unit_cost_usd"]) for x in rows if line(x) == "5"][0]
     out("C3", "Foam share of one kit", round(foam_cost / kit * 100), "%")
     # sizing sheet for other hulls
     for c in (size_other("6.5 m paddle canoe, no motor, 3 crew", 3.8, 350, 650, 550, 0.0, 3),

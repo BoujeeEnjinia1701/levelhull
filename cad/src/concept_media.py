@@ -7,6 +7,8 @@ Takes the kit and the reference canoe from cad/src/model.py and renders the medi
 (LVH-DWG-010), media/model.glb and media/viewer.html. Grey parts are context (the owner's canoe and
 outboard motor) with no BOM number. No flow diagram: the kit moves no energy or material.
 Figures on the sheet come from docs/04-calcs/results.csv (LVH-CAL-001).
+Kit 1.9: the kit is taken from model.detail_kit() (every hole and fastener of option A).
+Run with --web to write only media/model.glb and media/viewer.html.
 CONCEPT, NOT FOR FABRICATION.
 """
 import csv
@@ -57,14 +59,14 @@ def canoe_parts(motor=True):
 
 def exploded_bay():
     """One module bay on the port side (module 2), pulled apart, seen from the starboard side."""
-    k = M.build_kit(P)
+    k = M.detail_kit(P)
     h = M.hull_context(P)
     x0, x1 = P["modules"][1]
     win = Pos((x0 + x1) / 2, 600, 400) * Box(x1 - x0 + 500, 1200, 1000)
     shell = h["shell"] & win
     frames = Compound([f & win for f in h["frames"] if x0 - 300 < (f.bounding_box().min.X + 25) < x1 + 300])
     strake = h["strakes"][0] & win
-    sel = lambda key: Compound([s for n, s in k[key] if n.split()[1:3] == ["port", "2"]])  # noqa: E731
+    sel = lambda key: Compound([x for n, s in k[key] if n.split()[1:3] == ["port", "2"] for x in s.solids()])  # noqa: E731
     up, inb = 1.0, -1.0
     parts = [
         Part("Canoe planking (context)", shell, HULL, None),
@@ -105,10 +107,20 @@ def web(parts):
         bd.export_gltf = orig
 
 
+def detail_components():
+    k = M.detail_kit(P)
+    comps = {key: Compound([x for _, s in k[key] for x in s.solids()]) for key in k}
+    comps["gauge"] = M.gauge(P)
+    return comps
+
+
 def main():
     r = R()
-    comps = M.build_components(P)
+    comps = detail_components()
     parts = canoe_parts() + kit_parts(comps)
+    if "--web" in sys.argv:
+        web(parts)
+        return
     render_all(
         parts, project=PROJECT, title=f"{TITLE} concept", dwg_no="LVH-DWG-010",
         key_figures=[

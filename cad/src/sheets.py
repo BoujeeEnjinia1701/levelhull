@@ -1,4 +1,4 @@
-"""LevelHull general arrangement sheet LVH-DWG-001, Rev P3 (TRL 3; LVH-DDR-002 and LVH-DDR-003 applied).
+"""LevelHull general arrangement sheet LVH-DWG-001, Rev P4 (TRL 3; LVH-DDR-002, LVH-DDR-003 and LVH-DEC-001 D-S1 applied; drawn from the detailed kit 1.9 model).
 
 Run from the repo root:  python cad/src/sheets.py
 Writes cad/drawings/LVH-DWG-001.svg, .pdf and .png from the parametric model in cad/src/model.py
@@ -18,7 +18,8 @@ from drawing import Sheet, _t, project_views, INK, MUTED  # noqa: E402
 import model as M  # noqa: E402
 
 P = M.PARAMS
-DATE = "2026-10-03"
+DATE = "2026-10-24"
+DATE5 = "2026-10-25"
 SEC_X = 2400.0          # section A-A: through module 2 and its aft strap
 SEC_K = 0.05            # 1:20
 
@@ -32,23 +33,26 @@ def leader(x1, y1, x2, y2, text, anchor="start"):
 def main():
     D = M.derived(P)
     work = ROOT / "cad" / "drawings" / "_ga_views"
-    asm = M.assembly(P, with_hull=True)
+    kit = M.detail_kit(P)
+    asm = Compound([s for key in kit for _, s in kit[key]] + [M.context_compound(P, motor=False)])
     views = project_views(asm, work)
     slab = Pos(SEC_X - 145, 0, 400) * Box(350, 4000, 2000)   # takes in the frame at 2,100 and the strap at 2,400
     sec = Compound([asm & slab])
     sv = project_views(sec, work / "sec")
     sb = sec.bounding_box()
     s = Sheet(project="LevelHull", title="Flotation retrofit in the reference canoe: general arrangement",
-              dwg_no="LVH-DWG-001", rev="P3", author="Amish Chadha", date=DATE, scale=0.02,
+              dwg_no="LVH-DWG-001", rev="P5", author="Amish Chadha", date=DATE5, scale=0.02,
               material="Kit per bom/bom.csv; canoe is the owner's boat (reference shown). PRELIMINARY, NOT FOR FABRICATION",
-              revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", DATE, "AC"),
-                         ("P2", "LVH-DDR-002: design for construction", DATE, "AC"),
-                         ("P3", "LVH-DDR-003: modules widened to 220", DATE, "AC")])
+              revisions=[("P1", "Preliminary GA for TRL 3 (from cad/src/model.py)", "2026-10-03", "AC"),
+                         ("P2", "LVH-DDR-002: design for construction", "2026-10-03", "AC"),
+                         ("P3", "LVH-DDR-003: modules widened to 220", "2026-10-03", "AC"),
+                         ("P4", "Kit 1.9 detail; chock screws (D-S1)", DATE, "AC"),
+                         ("P5", "Four bailers (D-O3)", DATE5, "AC")])
     s.add_ortho(views)
     # section A-A at 1:20, left-aligned in the right column
     vw = (sb.max.Y - sb.min.Y) * SEC_K
     vh = (sb.max.Z - sb.min.Z) * SEC_K
-    x0, y0 = 279.0, 40.0
+    x0, y0 = 279.0, 50.0
     s.add_svg(sv["right"], x0, y0, vw, vh, scale=SEC_K)
     L = [_t(x0 + vw / 2, y0 + vh + 6, "SECTION A-A", 2.8, 600, INK, "middle"),
          _t(x0 + vw / 2, y0 + vh + 10, f"Scale 1:20; looking aft (along -X), {SEC_X / 1000:.1f} m from the transom (frame at 2.1 m behind)", 2.2, 400, MUTED, "middle")]
@@ -59,13 +63,13 @@ def main():
     ms = M.module_section(P)
     yc = sum(q[0] for q in ms) / 4
     zc = (D["zb"] + D["zt"]) / 2
-    L += leader(X(yc), Z(zc), tx, 47, "FOAM CORE (5) IN COVER (6)")
+    L += leader(X(yc), Z(zc), tx, 59, "FOAM CORE (5) IN COVER (6)")
     bs = M.batten_section(P)
-    L += leader(X(sum(q[0] for q in bs) / 4), Z((D["zb"] + D["bz0"]) / 2), tx, 54, "SHELF BATTEN (2), M8 SCREW (3)")
-    L += leader(X(ms[2][0] + 20), Z(D["zt"] + 2), tx, 40, "STRAP (8), D-RINGS (9)")
+    L += leader(X(sum(q[0] for q in bs) / 4), Z((D["zb"] + D["bz0"]) / 2), tx, 66, "SHELF BATTEN (2), M8 SCREW (3)")
+    L += leader(X(ms[2][0] + 20), Z(D["zt"] + 2), tx, 52, "STRAP (8), D-RINGS (9)")
     yo = M.half(P["D"], 0, P) + P["strake"][0] + 26
-    L += leader(X(yo), Z(P["eye_z"]), tx, 33, "EYE BOLT (10), GRAB LINE (11)")
-    L += leader(X(M.y_frame(250)), Z(250), tx, 61, "FRAME (OWNER'S CANOE)")
+    L += leader(X(yo), Z(P["eye_z"]), tx, 45, "EYE BOLT (10), GRAB LINE (11)")
+    L += leader(X(M.y_frame(250)), Z(250), tx, 73, "FRAME (OWNER'S CANOE)")
     # module and freeboard sizes on the port side
     s._dim(X(ms[1][0]), Z(D["zt"]), X(ms[1][0]), Z(D["zb"]), f"{D['zt'] - D['zb']:.0f}", "left", off=4)
     s._layers += L
@@ -82,7 +86,7 @@ def main():
         "Freeboard mark: top edge 50 below the gunwale, amidships",
         "Swamped, design load: 113 freeboard amidships, 92 lowest",
         "Third-angle; X from transom, Y to port; (n) = BOM line",
-    ], x=276, y=112, width=146)
+    ], x=276, y=118, width=146)
     out = s.save(ROOT / "cad" / "drawings" / "LVH-DWG-001")
     shutil.rmtree(work, ignore_errors=True)
     print(f"wrote {out}")

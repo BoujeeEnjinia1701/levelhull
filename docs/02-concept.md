@@ -3,9 +3,9 @@ doc_id: LVH-PRC-001
 title: LevelHull design precis
 project: LevelHull
 doc_type: Precis
-version: "0.3"
+version: '0.5'
 status: Draft
-date: '2026-10-03'
+date: '2026-10-25'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -21,6 +21,14 @@ revisions:
   date: '2026-10-03'
   author: Amish Chadha
   change: Modules widened from 200 to 220 mm (LVH-DDR-003); first-order numbers updated
+- version: "0.4"
+  date: '2026-10-24'
+  author: Amish Chadha
+  change: "Kit 1.9.1 upgrade: this precis describes option A of LVH-OPT-001 (concept choice A or B awaiting Amish, LVH-DEC-001 D-O1); counterbored chock screws (D-S1); freeboard just after swamping from LVH-STM-001"
+- version: '0.5'
+  date: '2026-10-25'
+  author: Amish Chadha
+  change: 'Four bailers (D-O3) and the free-flooding statement of R2 and R3 (D-O2), decided by Amish 2026-10-25; cost USD 694 per canoe'
 ---
 
 # LevelHull design precis
@@ -48,7 +56,7 @@ Eight buoyancy modules of closed-cell polyethylene foam, four on each side, sit 
 | 1 | Setting gauge | Plywood fitting tool that marks the batten height on every frame |
 | 2 | Shelf battens | Hardwood rails screwed to the frames; each carries one module |
 | 3 | Coach screws M8 x 100 | One into every frame a batten crosses; take the module's lift into the frames |
-| 4 | End chocks | Stop the module sliding fore and aft |
+| 4 | End chocks | Stop the module sliding fore and aft; two counterbored screws each, driven parallel to the frame face (LVH-DEC-001 D-S1) |
 | 5 | Foam cores | Four 50 mm layers of closed-cell polyethylene foam: the buoyancy |
 | 6, 7 | Covers | Sewn PVC tarpaulin sleeves that shield the foam from sun, fuel and abrasion |
 | 8, 9 | Hold-down straps and D-ring buckles | Two webbing loops per module round module and batten |
@@ -84,16 +92,17 @@ From LVH-CAL-001 (`docs/04-calcs/sizing.py`); fresh water, design load unless st
 | --- | --- | --- |
 | Modules | 8, each 220 mm wide x 200 mm high, 4.78 m a side, 0.42 m3 | Reference canoe, thwarts at 1.2, 3.0 and 4.8 m |
 | Design net load | 118 kg | Four crew holding on (20 % of 75 kg each), 36 kg motor, anchor, nets, catch |
-| Freeboard, swamped | 113 mm amidships, 92 mm lowest (transom) | Timber at 1,000 kg/m3; trim 0.39 deg stern down |
+| Freeboard, swamped | 113 mm amidships, 92 mm lowest (transom) | Timber at 1,000 kg/m3; trim 0.39 deg stern down; water inside level with the lake |
+| Freeboard straight after swamping | About 24 mm | Hull brim-full, water trapped above the lake level (LVH-STM-001 S2) |
 | Reserve | Carries 290 kg at 50 mm freeboard: 2.45 times the design load | |
 | Roll stiffness | 761 kg m per radian (metacentric height 3.1 m) | Waterplane of modules and planks |
-| Same foam on the floor | Foam top just at the water: heels 10.6 deg with four crew on one side, and no roll stiffness at all with 5 kg more load | For comparison only |
+| Same foam on the floor | Foam top just at the water: heels 22 deg with four crew on one side (F19, corrected 2026-10-24), and no roll stiffness at all with 5 kg more load | For comparison only |
 | Four crew on one side | 3.9 deg heel, 44 mm freeboard on the low side | |
 | Largest module lost and 5 % water uptake | Still floats, 25 mm freeboard | |
-| Bailing to 200 mm freeboard | 1.17 m3, about 6 minutes for two crew (estimate) | 100 L per minute each, calm water |
+| Bailing to 200 mm freeboard | 1.17 m3 from the lake-level condition, about 3 minutes for four crew with four bailers; about 11 minutes from brim-full at 50 L/min each (estimates) | 100 L per minute each, calm water; four bailers since LVH-DEC-001 D-O3 |
 | Kit mass | 69 kg; dry canoe sits about 11 mm deeper | |
 | Share of the inside volume | 8.4 % | |
-| Parts cost | USD 682 per canoe; USD 1,360 for two | Value-engineering target USD 1,000 for two |
+| Parts cost | USD 694 per canoe; USD 1,384 for two | Value-engineering target USD 1,000 for two |
 
 ## Patent design-arounds
 
@@ -115,4 +124,4 @@ This design is published as an open engineering reference. It is not certified e
 
 ## Open questions
 
-None for the design; decisions are in the register (`docs/06-design-decisions.md`), and facts that need real hulls and parts are listed there under "To confirm when parts are bought".
+The concept choice between this design (option A) and external sponsons (option B) is open and awaiting Amish (LVH-OPT-001, LVH-DEC-001 D-O1); other decisions are in the register (`docs/06-design-decisions.md`), and facts that need real hulls and parts are listed there under "To confirm when parts are bought".

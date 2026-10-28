@@ -24,8 +24,8 @@ P = M.PARAMS
 D = M.derived(P)
 OUT = ROOT / "docs" / "05-build-plan"
 DWG = ROOT / "cad" / "drawings"
-DATE = "2026-10-03"
-K = M.build_kit(P)
+DATE = "2026-10-24"
+K = M.detail_kit(P)   # kit 1.9: detailed pieces (holes, every fastener), labelled as build_kit()
 H = M.hull_context(P)
 CA, SA = D["cos"], D["sin"]
 
@@ -34,8 +34,13 @@ COL = {"gauge": "#D4A017", "batten": "#92400E", "screw": "#374151", "chock": "#7
        "mark": "#DC2626", "bailer": "#16A34A", "hull": "#D6D3D1", "frame": "#A8A29E"}
 
 
+def CF(shapes):
+    """A flat compound of every solid (a compound of compounds reports no volume in build123d 0.13)."""
+    return Compound([x for s in shapes for x in s.solids()])
+
+
 def pick(key, *tokens):
-    return Compound([s for n, s in K[key] if all(t in n.split() for t in tokens)])
+    return CF([s for n, s in K[key] if all(t in n.split() for t in tokens)])
 
 
 def bay(key):
@@ -75,18 +80,18 @@ def components():
         Part("End chocks (16)", bay("chocks"), COL["chock"], 4, (0, -300, 300)),
         Part("Foam cores (8), four layers each", bay("cores"), COL["core"], 5, (0, -150, 1150)),
         Part("Covers (8)", bay("covers"), COL["cover"], 6, (0, -150, 700)),
-        Part("Hold-down straps with D-rings (16)", Compound([bay("straps"), bay("rings")]), COL["strap"], 8, (0, -800, 250)),
+        Part("Hold-down straps with D-rings (16)", CF([bay("straps"), bay("rings")]), COL["strap"], 8, (0, -800, 250)),
         Part("Grab-line eye bolts (8)", pick("eyes", "port"), COL["eye"], 10, (0, 450, 0)),
         Part("Grab lines (2)", pick("grablines", "port"), COL["line"], 11, (0, 700, -250)),
         Part("Freeboard marks (2), painted", pick("marks", "port"), COL["mark"], 13, (0, 450, -400)),
-        Part("Bailers (2)", Compound([s for _, s in K["bailers"]]), COL["bailer"], 12, (0, -400, -300)),
+        Part("Bailers (4)", CF([s for _, s in K["bailers"]]), COL["bailer"], 12, (0, -400, -300)),
     ]
 
 
 def overview():
     ps = components()
     # show the bay components and one example of the long items, near the bay
-    ps[7].shape = Compound([s for s in [pick("eyes", "port")] ]) & window(X0 - 200, X1 + 900, 600, 1200)
+    ps[7].shape = pick("eyes", "port") & window(X0 - 200, X1 + 900, 600, 1200)
     ps[8].shape = pick("grablines", "port") & window(X0 - 200, X1 + 900, 600, 1300, -200, 800)
     ps[9].shape = pick("marks", "port")
     ps[9].shape = Pos(-800, 0, 0) * ps[9].shape
@@ -128,7 +133,8 @@ def sheets():
     bv.component_sheet(Part("End chock", ch, COL["chock"]), nb, "LevelHull", "LVH-DWG-103",
                        "End chock (16)", "Batten offcut, hardwood",
                        ["Cut 40 long from batten offcut; 50 high, same slope as the batten.",
-                        "Two 5 x 60 stainless wood screws down into the batten top.",
+                        "Two 5 x 60 stainless screws, 15 and 35 out from the sloping face,",
+                        "  driven parallel to it in 12 counterbores 30 deep (31 into batten).",
                         "Fits: on the batten top, tight against the module end,",
                         "  sloping face on the frame face.",
                         "Seal the cut ends."],
@@ -155,7 +161,7 @@ def sheets():
                         "Fits: sits on the batten, outboard face on the frame faces."],
                        DATE, inset_view=(24, -120))
     st = pick("straps", "port", "2", "2400")
-    bv.component_sheet(Part("Hold-down strap", Compound([st, pick("rings", "port", "2", "2400")]), COL["strap"]),
+    bv.component_sheet(Part("Hold-down strap", CF([st, pick("rings", "port", "2", "2400")]), COL["strap"]),
                        nb, "LevelHull", "LVH-DWG-106", "Hold-down strap with D-rings (16)",
                        "50 mm polyester webbing, stainless double D-rings",
                        ["Cut 1,250 of 50 webbing; heat-seal both ends.",
@@ -182,7 +188,7 @@ def joints():
     bv.joint([Part("Plank", H["shell"] & w, COL["hull"]), Part("Frame (cut)", (H["frames"][3] - bay("screws")) & w, COL["frame"]),
               Part("Shelf batten (cut)", (bay("battens") - bay("screws")) & w, COL["batten"]),
               Part("Coach screw and washer (cut)", bay("screws") & w, COL["screw"]),
-              Part("Module (cut)", Compound([bay("covers"), bay("cores")]) & w, COL["cover"])],
+              Part("Module (cut)", CF([bay("covers"), bay("cores")]) & w, COL["cover"])],
              OUT / "joint-02.png", "Joint 2: batten to frame, cut through the screw",
              "Screw square to the batten face, 50 into the frame, stops 10 short of the plank", elev=8, azim=-12)
     # 3 chock at the module end
@@ -225,7 +231,7 @@ def steps():
     scr = Part("Coach screws and washers", bay("screws"), COL["screw"], None, mul(NIN, 300))
     chk = Part("End chocks", bay("chocks"), COL["chock"], None, (0, 0, 250))
     stp = Part("Hold-down straps (open)", bay("straps"), COL["strap"], None, (0, -350, 0))
-    mod = Part("Module (core in cover)", Compound([bay("covers"), bay("cores")]), COL["cover"], None, (0, -150, 450))
+    mod = Part("Module (core in cover)", CF([bay("covers"), bay("cores")]), COL["cover"], None, (0, -150, 450))
     rng = Part("D-rings closed", bay("rings"), COL["ring"], None, (0, 0, 150))
     g = Part("Setting gauge", M.gauge(P), COL["gauge"], None, (0, 0, 300))
     seq = [
@@ -248,13 +254,13 @@ def steps():
         bv.step(done, new, OUT / f"step-{i:02d}.png", title, sub, context=ctx, elev=24, azim=-120)
     # whole-canoe steps
     full = M.context_compound(P, motor=False)
-    kit_in = Compound([s for key in ("battens", "screws", "chocks", "covers", "straps", "rings") for _, s in K[key]])
+    kit_in = CF([s for key in ("battens", "screws", "chocks", "covers", "straps", "rings") for _, s in K[key]])
     base = [Part("Modules fitted (all eight)", kit_in, "#D1D5DB")]
     canoe = [Part("Canoe", full, COL["hull"])]
-    eyes = Part("Grab-line eye bolts (4 a side)", Compound([s for _, s in K["eyes"]]), COL["eye"], None, (0, 0, 500))
-    lines = Part("Grab lines", Compound([s for _, s in K["grablines"]]), COL["line"], None, (0, 0, 500))
-    marks = Part("Freeboard marks", Compound([s for _, s in K["marks"]]), COL["mark"], None, (0, 0, 0))
-    bails = Part("Bailers on lanyards", Compound([s for _, s in K["bailers"]]), COL["bailer"], None, (0, 0, 500))
+    eyes = Part("Grab-line eye bolts (4 a side)", CF([s for _, s in K["eyes"]]), COL["eye"], None, (0, 0, 500))
+    lines = Part("Grab lines", CF([s for _, s in K["grablines"]]), COL["line"], None, (0, 0, 500))
+    marks = Part("Freeboard marks", CF([s for _, s in K["marks"]]), COL["mark"], None, (0, 0, 0))
+    bails = Part("Bailers on lanyards", CF([s for _, s in K["bailers"]]), COL["bailer"], None, (0, 0, 500))
     bv.step(base, [eyes], OUT / "step-08.png", "Step 8: fit the grab-line eye bolts",
             "Four a side through the rubbing strake and top plank, between frames", context=canoe,
             elev=24, azim=-58, size=(9, 6), label_done=False)

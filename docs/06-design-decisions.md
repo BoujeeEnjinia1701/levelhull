@@ -3,9 +3,9 @@ doc_id: LVH-DEC-001
 title: LevelHull design decisions register
 project: LevelHull
 doc_type: Design decisions register
-version: "0.2"
+version: '0.4'
 status: Draft
-date: '2026-10-03'
+date: '2026-10-25'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -17,6 +17,14 @@ revisions:
   date: '2026-10-03'
   author: Amish Chadha
   change: Decision 10A recorded (modules widened for R12 and R13, LVH-DDR-003); value engineering updated
+- version: "0.3"
+  date: '2026-10-24'
+  author: Amish Chadha
+  change: "Kit 1.9.1 upgrade: D-O1 concept choice (A or B), D-O2 sealed hull after swamping, D-O3 bailing and D-R1 new requirements PR-014 to PR-017 open, awaiting Amish; D-S1 end chock screws and D-S2 coach screw material decided under the standing instruction of 2026-10-23; calculation corrections from the independent review; kit 1.9 detailing recorded with no design dimension changed"
+- version: '0.4'
+  date: '2026-10-25'
+  author: Amish Chadha
+  change: 'Amish decided D-O2 (b), D-O3 (a), D-R1 and the product model appearance departures as recommended on 2026-10-25 ("i concur with your recommendations"); D-O1 stays open (no pick); USD 1,384'
 ---
 
 # LevelHull design decisions register
@@ -27,7 +35,11 @@ Every design decision still to be made, and every decision made, in one place. E
 
 ## Open decisions
 
-None. All decisions were made under Amish's 2026-10-03 pre-approval and his requirement decisions of 2026-10-03.
+*Table 0. Open decisions, **Proposed, awaiting Amish**. D-O2, D-O3 and D-R1 were decided by Amish on 2026-10-25 as recommended and are in Table 2.*
+
+| # | To decide | Options | Recommendation | What it affects in the build | Source |
+| --- | --- | --- | --- | --- | --- |
+| D-O1 | Concept choice | A: foam modules high inside (the design, 172 of 215); B: external foam sponsons (163); C: double outrigger floats (148, not put forward). Variant of A: lower the modules and battens about 40 mm (B's lesson) | None: A and B are within 10 % (5.2 %), so both go to Amish without a pick. The repo stays on A until he decides | If B: new model detail for construction, drawings, BOM and build plan; if the A variant: batten height, gauge notches, sizing re-run | LVH-OPT-001, LVH-DDR-004 |
 
 ## To confirm when parts are bought
 
@@ -48,10 +60,10 @@ These are facts that can only be settled with real parts, a real canoe or the fi
 
 ## Value engineering
 
-Value-engineering target: USD 1,000 (a hypothetical control target, not a limit) for the kits for two prototype canoes. Estimated cost of the constructable design: USD 1,360 (USD 360 over the target); one kit is USD 682. Main cost drivers and savings worth trying:
+Value-engineering target: USD 1,000 (a hypothetical control target, not a limit) for the kits for two prototype canoes. Estimated cost of the constructable design: USD 1,384 (USD 384 over the target); one kit is USD 694, with four bailers since D-O3 (USD 12 more a kit). Main cost drivers and savings worth trying:
 
 - The largest lines are the foam (USD 330 a kit, six sheets), the tarpaulin covers and their sewing parts (USD 100), the battens (USD 56) and the coach screws (USD 43).
-- Savings worth trying: buy foam by the block from a fishing-float or packaging maker and cut it locally (perhaps USD 100 a kit); hot-galvanised screws and D-rings in place of stainless where the canoe is used in fresh water (about USD 30); covers from used truck tarpaulin in good condition (about USD 50); a three-layer module on hulls whose weighed timber gives a proven wood margin (D3), cutting foam by a quarter.
+- Savings worth trying: buy foam by the block from a fishing-float or packaging maker and cut it locally (perhaps USD 100 a kit); galvanised D-rings in place of stainless where the canoe is used in fresh water (the screws stay A4, D-S2); covers from used truck tarpaulin in good condition (about USD 50); a three-layer module on hulls whose weighed timber gives a proven wood margin (D3), cutting foam by a quarter.
 - The gauge is made once per hull shape and the calculator is free, so a builder fitting a fleet of the same canoe spreads those costs.
 
 ## Decisions made
@@ -60,6 +72,14 @@ Value-engineering target: USD 1,000 (a hypothetical control target, not a limit)
 
 | Date | Decision | Decided by | Record |
 | --- | --- | --- | --- |
+| 2026-10-25 | D-O2, the sealed hull just after swamping: option (b), keep the hull sealed and state R2 and R3 for the free-flooding condition of the USCG method, with the operating rule "hold on, then bail at once, seated"; one-way freeing ports (a) studied at TRL 4 with the partner | Amish: "i concur with your recommendations" | LVH-PRS-001 v0.5 PR-002, PR-003; LVH-STM-001 v0.2 S32; LVH-BLD-001 v0.4 step 10 |
+| 2026-10-25 | D-O3, bailing from brim-full: option (a), four bailers so all four crew bail (BOM line 12, 2 to 4, USD 12 more a kit); about 11 min from brim-full at 50 L/min each against 15 | Amish: "i concur with your recommendations" | BOM line 12; `cad/src/model.py` `bailers_x`; LVH-PRS-001 v0.5 PR-004; LVH-STM-001 v0.2 S34; LVH-CAL-001 v0.4 |
+| 2026-10-25 | D-R1, requirements added in the kit 1.8 migration: PR-014 to PR-017 accepted as written | Amish: "i concur with your recommendations" | LVH-PRS-001 v0.5 |
+| 2026-10-25 | Appearance departures of the kit 1.9 product model (renders only): beach slab, 1.75 m mannequin, outboard tilted up, canoe topsides painted blue, as proposed on 2026-10-24 | Amish: "i concur with your recommendations" | `cad/src/product_model.py` (no change) |
+| 2026-10-24 | D-S1, end chock screws: the two 5 x 60 mm stainless screws in each chock went straight down through the 50 mm chock and only 10 mm into the batten (LVH-STM-001 S13 failed: 6 d is 30 mm). Options weighed: longer 5 x 80 mm screws straight down (would break out of the batten's sloping inboard face below about 30 mm, and cost more); one M8 coach screw per chock (chock too small); screws driven parallel to the frame face in 12 mm counterbores 30 mm deep (chosen: same screws, same chock, the screw stays inside chock and batten for its whole length, 31 mm into the batten). Cost change: none. Model, BOM line 4, build plan (section 3.3, step 4) and LVH-DWG-103 updated; S13 rerun and closed | Decided under Amish's standing instruction of 2026-10-23 (fix a failed STEM row in the same session); Amish can reverse it | LVH-STM-001 S13 |
+| 2026-10-24 | D-S2, coach screw material: the BOM allowed hot-dip galvanised coach screws as an alternative to A4 stainless; tannins in wet hardwood attack zinc in fresh water as well as salt (independent review of LVH-STM-001 S22). Galvanised withdrawn; A4 only, inspected for crevice corrosion at each refit. Cost change: none (the BOM was priced for stainless) | Decided under Amish's standing instruction of 2026-10-23; Amish can reverse it | LVH-STM-001 S22; BOM line 3 |
+| 2026-10-24 | Calculation corrections from the independent review (no design change): the floor comparison of LVH-CAL-001 section 5 used the high modules' waterplane position (now 135 kg m per radian, 22 deg with the crew on one side, was 283 and 10.6 deg); denser-than-water timber now carries its weight moment in the trim; fitting time 6.7 h with the counterbored chocks | Corrections, not decisions; recorded for the audit trail | LVH-CAL-001 v0.3 |
+| 2026-10-24 | Kit 1.9 detailing of option A, no design dimension changed: holes for every screw, 8.4 x 24 mm washers under the coach screws, every eye bolt with its washers and nyloc nut, foam cores modelled as their four strips, D-ring buckles as wire rings, 2 mm edge breaks on battens and chocks, bailer lanyards, the setting gauge shown beside the canoe | Standing instruction for the kit 1.9.1 rollout (Amish, 2026-10-24: "Detail every option") | `cad/src/model.py`, `cad/fidelity.json` |
 | 2026-10-03 | TRL 2 review items D1 to D10: modules high under the gunwale, not low; closed-cell polyethylene foam in covers, not chambers or polystyrene; no lift counted from the hull timber; one reference canoe (8.0 m, 15 hp, four crew) with an open calculator for others; crew in the water at 20 % of body weight; re-entry step stays parked; grab lines along both sides; life jacket message in every document and test; first co-design candidates (a beach management unit on the Kenyan shore of Lake Victoria with its canoe builders, a regional fisheries research institute, a sea-safety programme; none approached yet); R11 to R13 added; pitch, problem, design-arounds and budget unchanged | Amish, pre-approval of 2026-10-03: "start with the first 14 repos from the list of 29 projects. I pre-approve the batch runs along with any recommendations you come up with. I also accept any cost overruns or variations from the assumed scope cost." | LVH-DDR-001 |
 | 2026-10-03 | Design for construction, changes C1 to C12: modules high on the frame faces; four modules a side between thwarts; parallelogram stacks of equal strips; shelf battens; coach screws into frames only, 10 mm short of the planks; end chocks; webbing loops with D-ring buckles in the bays; no glue; sewn tarpaulin covers; setting gauge; grab-line eye bolts above the waterline; freeboard marks and bailers | Amish, same pre-approval | LVH-DDR-002 |
 | 2026-10-03 | Assumptions A1 to A5: frames at most 600 mm apart and 60 mm deep, else shorter screws and a third frame, never through the planks; timber as dense as water; sound frame fastenings checked before fitting; foam data to confirm; fixing strengths to confirm | Amish, same pre-approval | LVH-DDR-002 |

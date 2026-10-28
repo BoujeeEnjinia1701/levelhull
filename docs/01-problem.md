@@ -3,7 +3,7 @@ doc_id: LVH-PRB-001
 title: LevelHull problem statement
 project: LevelHull
 doc_type: Problem statement
-version: "0.3"
+version: "0.4"
 status: Draft
 date: '2026-10-03'
 author: Amish Chadha
@@ -21,6 +21,10 @@ revisions:
   date: '2026-10-03'
   author: Amish Chadha
   change: Settled answers restated for the 220 mm modules (LVH-DDR-003)
+- version: "0.4"
+  date: '2026-10-24'
+  author: Amish Chadha
+  change: Users and needs, and stakeholders tables added (kit 1.8 pipeline, STANDARDS section 22); they are the sources of LVH-URS-001
 ---
 
 # LevelHull problem statement
@@ -43,6 +47,26 @@ Existing answers do not fit these boats. The US test is a benchmark for boats, n
 | Canoe owners | A retrofit that is affordable, lasts, and takes little space from the catch | Wooden canoes of many sizes, often with outboard motors |
 | Local boatbuilders | A sizing sheet and fitting guide for different hulls | Beach yards with hand tools |
 | Fisheries departments, beach management units and NGOs | A measure to promote alongside life jackets and weather warnings | Safety at sea programmes |
+
+*Table 1a. Users and needs (kit 1.8; the source of the user requirements in LVH-URS-001).*
+
+| User type | Goals and needs | Typical use scenario | Pain points and challenges |
+| --- | --- | --- | --- |
+| Canoe fishers and crews | A canoe that stays afloat, upright and level when it fills, something to hold, and a way to bail it out and get home | Four crew setting or hauling nets at night or in a squall; a wave fills the canoe; they hold on, then bail | Many cannot swim and many wear no life jacket; cold, darkness and exhaustion; crowding on one side |
+| Canoe owners | A retrofit that is affordable, lasts years in sun, fuel and water, keeps room for catch and nets, and does not hinder beaching or landing | One owner, several crews; the canoe is dragged up the beach daily and rafted alongside others at the landing | Cash flow; space is income; a kit that rots, tears or gets in the way will be thrown out |
+| Local boatbuilders | A sizing method and a fitting guide that work on the hulls they build, with hand tools and local materials | Fitting the kit to a canoe on the beach in a day, between repairs | Every hull differs; no drawings; no welding or fusion equipment; holes below the waterline are a risk to their reputation |
+| Fisheries departments, beach management units and NGOs | A measure to promote with life jackets and weather warnings that saves lives and does not make crews careless | Safety campaigns at landing sites; licensing and inspection of canoes | Fear that flotation is used as an excuse not to wear life jackets; approval of changes to boats |
+
+*Table 1b. Stakeholders.*
+
+| Stakeholder group | Role or interest | Engagement needed |
+| --- | --- | --- |
+| Beach management units (BMUs) | Run the landing sites; trusted by fishers; enforce safety rules | Co-design partner for the first fitting and swamp test |
+| National fisheries research institutes | Hull, load and catch surveys; data on accidents | Hull measurements and loads for the sizing method |
+| Maritime authorities (for example the Kenya Maritime Authority) | Small vessel safety rules, approval of modifications | Ask whether fitting needs approval (LVH-REG-001) |
+| Sea-safety and life jacket programmes, NGOs | Training fishers; promotion | Promote the kit alongside life jackets, never instead |
+| Foam, tarpaulin and webbing suppliers | Materials | Data sheets for foam density, water uptake and UV life |
+| Open hardware community | Builders elsewhere | Feedback on the sizing method for other hulls |
 
 ## Operating environment
 

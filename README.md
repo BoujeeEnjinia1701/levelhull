@@ -2,11 +2,13 @@
 
 ![LevelHull: passive flotation retrofit for a wooden fishing canoe](media/render-hero.png)
 
-![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827) [![REUSE compliant](https://github.com/BoujeeEnjinia1701/levelhull/actions/workflows/reuse.yml/badge.svg)](https://github.com/BoujeeEnjinia1701/levelhull/actions/workflows/reuse.yml) [![Archived in Software Heritage](https://archive.softwareheritage.org/badge/origin/https://github.com/BoujeeEnjinia1701/levelhull/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/BoujeeEnjinia1701/levelhull) [![DOI](https://zenodo.org/badge/{"message":"GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:\"push\" to attach the repository with credentials.","documentation_url":"https://docs.anthropic.com/en/docs/claude-code/github-actions"}.svg)](https://zenodo.org/badge/latestdoi/{"message":"GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:\"push\" to attach the repository with credentials.","documentation_url":"https://docs.anthropic.com/en/docs/claude-code/github-actions"})
+![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Stage P3](https://img.shields.io/badge/stage-P3%20design%20outputs-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827) [![REUSE compliant](https://github.com/BoujeeEnjinia1701/levelhull/actions/workflows/reuse.yml/badge.svg)](https://github.com/BoujeeEnjinia1701/levelhull/actions/workflows/reuse.yml) [![Archived in Software Heritage](https://archive.softwareheritage.org/badge/origin/https://github.com/BoujeeEnjinia1701/levelhull/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/BoujeeEnjinia1701/levelhull) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23128819.svg)](https://doi.org/10.5281/zenodo.23128819)
 
-**Area:** Food and water security · **TRL:** 3 of 9 (proof of concept on paper) · **Value-engineering target:** USD 1,000 for two prototype canoes (estimated cost of the constructable design USD 1,360) · **Difficulty:** 3 of 5
+**Area:** Food and water security · **TRL:** 3 of 9 (proof of concept on paper) · **Value-engineering target:** USD 1,000 for two prototype canoes (estimated cost of the constructable design USD 1,384) · **Difficulty:** 3 of 5
 
 Adds passive buoyancy so a swamped wooden fishing canoe floats level and can be bailed.
+
+[Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [General arrangement LVH-DWG-001 (PDF)](cad/drawings/LVH-DWG-001.pdf) · [STEM check](docs/01b-stem-check.md) · [Concept options](docs/02a-concept-options.md) · [User requirements](docs/03a-user-requirements.md) · [Product requirements](docs/03-requirements.md) · [Traceability](docs/03b-traceability.md) · [Sizing note LVH-CAL-001](docs/04-calcs/01-sizing.md) · [Prototype build plan](docs/05-build-plan.md) · [Decisions](docs/06-design-decisions.md) · [Review note](docs/REVIEW.md)
 
 > CONCEPT, NOT FOR FABRICATION. LevelHull is a TRL 3 design on paper: it has not been built or tested, it is not certified lifesaving equipment, and it is never a substitute for life jackets.
 
@@ -55,14 +57,26 @@ Full problem statement: [docs/01-problem.md](docs/01-problem.md)
 
 ## Concept
 
-A retrofit kit of eight closed-cell polyethylene foam modules, four a side, fitted high under the gunwale on hardwood battens screwed to the canoe's frames and held by webbing straps. When a wave swamps the canoe, the modules cut the waterline along both sides, so it floats upright and level with about 100 mm of freeboard; the crew hold the grab lines, climb back in and bail. On paper, the 8 m reference canoe with a 15 hp motor and four crew holding on keeps 92 mm of freeboard at its lowest point, with 2.45 times the needed lift in reserve; the same foam laid on the floor would barely reach the surface and would lose all roll stiffness with a few kilograms more load. Never a substitute for life jackets.
+A retrofit kit of eight closed-cell polyethylene foam modules, four a side, fitted high under the gunwale on hardwood battens screwed to the canoe's frames and held by webbing straps. When a wave swamps the canoe, the modules cut the waterline along both sides, so it floats upright and level; the crew hold the grab lines, climb back in and bail. On paper, the 8 m reference canoe with a 15 hp motor and four crew holding on keeps 92 mm of freeboard at its lowest point once the water inside has evened out with the lake (about 24 mm in the first moments after swamping), with 2.45 times the needed lift in reserve; the same foam laid on the floor would barely reach the surface and would lose all roll stiffness with a few kilograms more load. Never a substitute for life jackets.
 
-Full design precis: [docs/02-concept.md](docs/02-concept.md) · Requirements: [docs/03-requirements.md](docs/03-requirements.md) · Calculations and sizing calculator: [docs/04-calcs/01-sizing.md](docs/04-calcs/01-sizing.md) · Prototype build plan: [docs/05-build-plan.md](docs/05-build-plan.md) · Design decisions: [docs/06-design-decisions.md](docs/06-design-decisions.md)
+![LevelHull concept: the kit in the reference canoe with a 1.75 m person for scale](media/hero.png)
+
+Full design precis: [docs/02-concept.md](docs/02-concept.md) · Problem: [docs/01-problem.md](docs/01-problem.md) · Regulatory register: [docs/07-regulatory.md](docs/07-regulatory.md) · Risk and FMEA: [docs/09-risk.md](docs/09-risk.md)
+
+## STEM check
+
+Thirty-four claims are checked (LVH-STM-001): 29 are within known science (two of them since fixes Amish decided on 2026-10-25) and five need field data or a test at TRL 4 and later, so the check stays open. Straight after a wave fills it to the brim, a canoe with no openings below the gunwale floats only about 24 mm up (about 3 mm at its low end) until the crew bail or water spills out as it rolls; the 92 mm and the bail-out time hold once the water inside is down to the lake level. Amish decided on 2026-10-25 to keep the hull sealed, state R2 and R3 for the free-flooding condition with the rule "hold on, then bail at once, seated", and supply four bailers so all four crew bail (about 11 min from brim-full). Two details were fixed under his standing instruction: the end chock screws now bite 31 mm into the batten (was 10 mm), and the coach screws are A4 stainless only. An independent reviewer's findings are recorded in the STEM check.
+
+## Concept options
+
+![Three ways to keep a swamped canoe afloat and level, side by side at one scale](media/options.png)
+
+Option A, the existing design (foam modules high inside, score 172 of 215), and option B, the same foam outside the hull as sponsons (163), are within 10 %, so both go to Amish without a pick; option C, double outrigger floats (148), is not put forward. All three are modelled at the same level of detail (LVH-OPT-001). The repo stays on option A until Amish decides.
 
 ## Key components
 
 - Eight buoyancy modules: four 50 mm layers of closed-cell polyethylene foam, 220 mm wide by 200 mm high, in sewn PVC tarpaulin covers
-- Hardwood shelf battens screwed into the frames with M8 coach screws that stop short of the planks, and end chocks
+- Hardwood shelf battens screwed into the frames with M8 coach screws and 24 mm washers that stop short of the planks, and end chocks with counterbored screws
 - Two 50 mm webbing hold-down straps per module with stainless D-ring buckles
 - Grab lines along both sides on through-bolted eye bolts
 - Two bailers on lanyards, painted freeboard marks and a swamp test
@@ -86,7 +100,9 @@ The [prototype build plan](docs/05-build-plan.md) (LVH-BLD-001, plan, not yet bu
 >
 > Modules must be fixed so they cannot tear free when the boat is full of water; each fixing carries at least twice its share of the full lift.
 >
-> With all four crew holding one side, the low gunwale comes within about 30 mm of the water: spread out along both grab lines.
+> With all four crew holding one side, the low gunwale comes within about 44 mm of the water: spread out along both grab lines.
+>
+> Straight after swamping the canoe floats nearly awash (about 24 mm) until the water inside evens out or the first buckets are bailed; bail seated and low.
 >
 > This design is published as an open engineering reference. It is not certified equipment.
 
@@ -94,9 +110,9 @@ The [prototype build plan](docs/05-build-plan.md) (LVH-BLD-001, plan, not yet bu
 
 | Folder | Contents |
 | --- | --- |
-| `docs/` | Problem, concept, requirements, calculations and design decisions |
-| `cad/src/` | build123d Python source, the source of truth for all geometry |
-| `cad/step/`, `cad/stl/` | Exported models for FreeCAD, other CAD tools and printing |
+| `docs/` | Problem, STEM check, concept options, requirements and traceability, calculations, build plan, decisions, regulatory, feasibility, risk, market and plan |
+| `cad/src/` | build123d Python source, the source of truth for all geometry (every concept option at detail level D3) |
+| `cad/step/`, `cad/stl/` | Exported models: one STEP per made or bought part of the design in `cad/step/A/`, an assembly per option |
 | `cad/drawings/` | 2D sketches and dimensioned drawings |
 | `bom/` | Bill of materials |
 | `electronics/` | KiCad schematics and PCB layouts |
